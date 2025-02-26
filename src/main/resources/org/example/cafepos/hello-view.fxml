@@ -23,18 +23,18 @@
                         <Font name="System Bold" size="23.0" />
                      </font>
                   </Label>
-                  <Label layoutX="47.0" layoutY="85.0" opacity="0.5" text="Login to Account" textFill="#4e342e" AnchorPane.bottomAnchor="315.0" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="97.5" AnchorPane.topAnchor="57.0">
+                  <Label layoutX="47.0" layoutY="85.0" opacity="0.5" text="Login to Account" textFill="#4e342e" AnchorPane.bottomAnchor="297.0" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="97.5" AnchorPane.topAnchor="85.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="login_UserName" layoutX="50.0" layoutY="153.0" prefHeight="30.0" prefWidth="200.0" promptText="USERNAME" styleClass="textfield" stylesheets="@style.css" AnchorPane.bottomAnchor="217.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="153.0" />
-                  <Button fx:id="login_btn" layoutX="118.0" layoutY="272.0" mnemonicParsing="false" text="Login" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="117.0" AnchorPane.topAnchor="272.0">
+                  <TextField fx:id="login_UserName" layoutX="51.0" layoutY="137.0" onAction="#loginBtn" prefHeight="30.0" prefWidth="200.0" promptText="USERNAME" styleClass="textfield" stylesheets="@style.css" AnchorPane.bottomAnchor="233.0" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="49.0" AnchorPane.topAnchor="137.0" />
+                  <Button fx:id="login_btn" layoutX="118.0" layoutY="272.0" mnemonicParsing="false" onAction="#loginBtn" text="Login" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="117.0" AnchorPane.topAnchor="272.0">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font></Button>
-                  <PasswordField fx:id="login_Password" layoutX="50.0" layoutY="218.0" prefHeight="30.0" prefWidth="200.0" promptText="PASSWORD" styleClass="textfield" stylesheets="@style.css" AnchorPane.bottomAnchor="152.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="218.0" />
-                  <Hyperlink fx:id="login_ForgotPass" layoutX="96.0" layoutY="317.0" text="Forgot Password?" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="96.5" AnchorPane.topAnchor="317.0" />
+                  <PasswordField fx:id="login_Password" layoutX="51.0" layoutY="202.0" onAction="#loginBtn" prefHeight="30.0" prefWidth="200.0" promptText="PASSWORD" styleClass="textfield" stylesheets="@style.css" AnchorPane.bottomAnchor="168.0" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="49.0" AnchorPane.topAnchor="202.0" />
+                  <Hyperlink fx:id="login_ForgotPass" layoutX="96.0" layoutY="317.0" onAction="#switchForgotPassword" text="Forgot Password?" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="96.5" AnchorPane.topAnchor="317.0" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="signup_Form" layoutX="6.0" prefHeight="400.0" prefWidth="300.0" styleClass="white-form" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
@@ -44,15 +44,50 @@
                         <Font name="System Bold" size="23.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="signup_UserName" layoutX="50.0" layoutY="100.0" prefHeight="30.0" prefWidth="200.0" promptText="USERNAME" styleClass="textfield" stylesheets="@style.css" />
-                  <PasswordField fx:id="signup_Password" layoutX="50.0" layoutY="154.0" prefHeight="30.0" prefWidth="200.0" promptText="PASSWORD" styleClass="textfield" stylesheets="@style.css" />
+                  <TextField fx:id="signup_UserName" layoutX="50.0" layoutY="100.0" onAction="#regBtn" prefHeight="30.0" prefWidth="200.0" promptText="USERNAME" styleClass="textfield" stylesheets="@style.css" />
+                  <PasswordField fx:id="signup_Password" layoutX="50.0" layoutY="154.0" onAction="#regBtn" prefHeight="30.0" prefWidth="200.0" promptText="PASSWORD" styleClass="textfield" stylesheets="@style.css" />
                   <ComboBox fx:id="signup_Question" layoutX="50.0" layoutY="213.0" prefHeight="30.0" prefWidth="200.0" promptText="Question" styleClass="textfield" stylesheets="@style.css" />
-                  <TextField fx:id="signup_Answer" layoutX="50.0" layoutY="268.0" prefHeight="30.0" prefWidth="200.0" promptText="ANSWER" styleClass="textfield" stylesheets="@style.css" />
-                  <Button fx:id="signup_btn" layoutX="110.0" layoutY="322.0" mnemonicParsing="false" text="Register">
+                  <TextField fx:id="signup_Answer" layoutX="50.0" layoutY="268.0" onAction="#regBtn" prefHeight="30.0" prefWidth="200.0" promptText="ANSWER" styleClass="textfield" stylesheets="@style.css" />
+                  <Button fx:id="signup_btn" layoutX="110.0" layoutY="322.0" mnemonicParsing="false" onAction="#regBtn" text="Register">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="fp_form" layoutX="300.0" layoutY="6.0" prefHeight="400.0" prefWidth="300.0" styleClass="white-form" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="47.0" layoutY="57.0" prefHeight="28.0" prefWidth="177.0" text="Forgot Password" textFill="#4e342e" wrapText="true" AnchorPane.bottomAnchor="315.0" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="76.0" AnchorPane.topAnchor="57.0">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="fp_Question" layoutX="50.0" layoutY="158.0" onAction="#reqQuestionList" prefHeight="30.0" prefWidth="200.0" promptText="Questions" styleClass="textfield" stylesheets="@style.css" />
+                  <TextField fx:id="fp_answer" layoutX="50.0" layoutY="213.0" prefHeight="30.0" prefWidth="200.0" promptText="Answer" styleClass="textfield" stylesheets="@style.css" />
+                  <Button fx:id="fp_proceedBtn" layoutX="90.0" layoutY="263.0" mnemonicParsing="false" onAction="#proceedBtn" prefHeight="34.0" prefWidth="120.0" text="Proceed" AnchorPane.bottomAnchor="103.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="263.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="fp_back" layoutX="119.0" layoutY="352.0" mnemonicParsing="false" onAction="#backToLogin" stylesheets="@style.css" text="Back" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="119.5" AnchorPane.topAnchor="336.0" />
+                  <TextField fx:id="fp_UserName" layoutX="50.0" layoutY="102.0" prefHeight="30.0" prefWidth="200.0" promptText="User Name" styleClass="textfield" stylesheets="@style.css" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="np_form" layoutX="300.0" prefHeight="400.0" prefWidth="300.0" styleClass="white-form" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="47.0" layoutY="57.0" prefHeight="28.0" prefWidth="177.0" text="Forgot Password" textFill="#4e342e" wrapText="true" AnchorPane.bottomAnchor="315.0" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="76.0" AnchorPane.topAnchor="57.0">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="np_newPassword" layoutX="47.0" layoutY="109.0" onAction="#changePasswordBtn" prefHeight="30.0" prefWidth="200.0" promptText="New Password" styleClass="textfield" stylesheets="@style.css" />
+                  <PasswordField fx:id="np_confirmPassword" layoutX="47.0" layoutY="170.0" onAction="#changePasswordBtn" prefHeight="30.0" prefWidth="200.0" promptText="Confirm Password" styleClass="textfield" stylesheets="@style.css" />
+                  <Button fx:id="np_changeBtn" layoutX="80.0" layoutY="238.0" mnemonicParsing="false" onAction="#changePasswordBtn" prefHeight="34.0" prefWidth="141.0" text="Change Password" AnchorPane.bottomAnchor="128.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="79.0" AnchorPane.topAnchor="238.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="np_back" layoutX="119.0" layoutY="352.0" mnemonicParsing="false" onAction="#backToForgotPass" stylesheets="@style.css" text="Back" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="119.5" AnchorPane.topAnchor="336.0" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="side_Form" prefHeight="400.0" prefWidth="300.0" styleClass="gradient" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
