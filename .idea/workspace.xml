@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c73a7ae9-ef96-4703-847c-1234fee317ad" name="Changes" comment="Created Register interface">
+    <list default="true" id="c73a7ae9-ef96-4703-847c-1234fee317ad" name="Changes" comment="starting main form interface">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/Images/group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/Images/icons8-cart-96.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/Images/icons8-dollar-100.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/Images/icons8-dollarbag-100.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/Images/icons8-users-90.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/Images/logowithnocap.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/Images/users-solid.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/mainForm.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/mainFormDesign.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/cafepos/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/HelloController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/hello-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +25,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -44,19 +51,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.HelloApplication.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.58850574",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "project.propCompiler"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.58850574&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/org/example/cafepos/Images" />
@@ -111,7 +118,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740235183597</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Created database and login/register backend">
+      <option name="closed" value="true" />
+      <created>1740568115708</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1740568115709</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -128,7 +143,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Created login interface" />
     <MESSAGE value="Created Register interface" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created Register interface" />
+    <MESSAGE value="Created database and login/register backend" />
+    <MESSAGE value="starting main form interface" />
+    <option name="LAST_COMMIT_MESSAGE" value="starting main form interface" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
