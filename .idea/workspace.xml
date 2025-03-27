@@ -4,18 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c73a7ae9-ef96-4703-847c-1234fee317ad" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/MainFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/ProductData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/cardProductController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/data.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/cardDesign.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/cardProduct.fxml" afterDir="false" />
+    <list default="true" id="c73a7ae9-ef96-4703-847c-1234fee317ad" name="Changes" comment="inventory completed">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/customersData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/report.jrxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/cafepos/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/cafepos/MainFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/MainFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/cardProduct.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/cardProduct.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/mainForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/mainForm.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/mainFormDesign.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/mainFormDesign.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,19 +49,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.58850574&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.HelloApplication.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.58850574",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/org/example/cafepos/Images" />
@@ -135,7 +132,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742993087146</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="inventory completed">
+      <option name="closed" value="true" />
+      <created>1743087249711</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1743087249711</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -154,7 +159,8 @@
     <MESSAGE value="Created Register interface" />
     <MESSAGE value="Created database and login/register backend" />
     <MESSAGE value="starting main form interface" />
-    <option name="LAST_COMMIT_MESSAGE" value="starting main form interface" />
+    <MESSAGE value="inventory completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="inventory completed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -165,7 +171,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/cafepos/MainFormController.java</url>
-          <line>591</line>
+          <line>1094</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>

@@ -47,7 +47,7 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Spinner fx:id="prod_spinner" styleClass="textfield" />
-                  <Button fx:id="prod_addBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="93.0" text="ADD">
+                  <Button fx:id="prod_addBtn" mnemonicParsing="false" onAction="#addBtn" prefHeight="26.0" prefWidth="93.0" text="ADD">
                      <HBox.margin>
                         <Insets bottom="5.0" left="1.0" />
                      </HBox.margin>
