@@ -5,10 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.sql.Connection;
@@ -133,12 +137,27 @@ public class HelloController {
                   if(result.next())
                   {
                    //redirects if the login is correct
+                      data.username = login_UserName.getText();
 
                       alert = new Alert(Alert.AlertType.INFORMATION);
                       alert.setTitle("Information Message");
                       alert.setHeaderText(null);
                       alert.setContentText("Login Successful");
                       alert.showAndWait();
+
+                      // Main form link
+                      Parent root = FXMLLoader.load(getClass().getResource("mainForm.fxml"));
+
+                      Stage stage = new Stage();
+                      Scene scene = new Scene(root);
+
+                      stage.setTitle("cafe management System");
+                      stage.setMinWidth(1100);
+                      stage.setMinHeight(600);
+
+                      stage.setScene(scene);
+                      stage.show();
+                      login_btn.getScene().getWindow().hide();
 
                   }else{
                       alert = new Alert(Alert.AlertType.ERROR);
