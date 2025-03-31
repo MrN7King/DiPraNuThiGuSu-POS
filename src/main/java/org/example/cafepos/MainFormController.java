@@ -38,6 +38,9 @@ import java.util.*;
 public class MainFormController implements Initializable{
 
     @FXML
+    private Button customer_removeBtn;
+
+    @FXML
     private BarChart<?, ?> dashboard_CustomerChart;
 
     @FXML
@@ -220,6 +223,7 @@ public class MainFormController implements Initializable{
     private ObservableList<ProductData> cardListData = FXCollections.observableArrayList();
 
 
+    //dashboard thivaker
     public void dashboardDisplayNC() {
 
         String sql = "SELECT COUNT(id) FROM receipt";
@@ -356,6 +360,7 @@ public class MainFormController implements Initializable{
     }
 
 
+    // inventory Pranal
     //Add btn
     public void inventoryAddBtn() {
 
@@ -694,6 +699,7 @@ public class MainFormController implements Initializable{
     }
 
 
+    // Menu Dilaksan
     public ObservableList<ProductData> menuGetData() {
 
         String sql = "SELECT * FROM product";
@@ -1029,6 +1035,7 @@ public class MainFormController implements Initializable{
     }
 
 
+    // sumry part below
     private int cID;
     public void customerID() {
 
@@ -1107,6 +1114,37 @@ public class MainFormController implements Initializable{
 
         customers_tableView.setItems(customersListData);
     }
+
+//    public void customerremoveData(){
+//        if (getid == 0) {
+//            alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Error Message");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Please select the order you want to remove");
+//            alert.showAndWait();
+//        } else {
+//            String deleteData = "DELETE FROM customer WHERE id = " + getid;
+//            connect = Database.connectDB();
+//            try {
+//                alert = new Alert(Alert.AlertType.CONFIRMATION);
+//                alert.setTitle("Confirmation Message");
+//                alert.setHeaderText(null);
+//                alert.setContentText("Are you sure you want to delete this order?");
+//                Optional<ButtonType> option = alert.showAndWait();
+//
+//                if (option.get().equals(ButtonType.OK)) {
+//                    prepare = connect.prepareStatement(deleteData);
+//                    prepare.executeUpdate();
+//                }
+//
+//                menuShowOrderData();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+//    }
+
 
     public void switchForm(ActionEvent event) {
 
