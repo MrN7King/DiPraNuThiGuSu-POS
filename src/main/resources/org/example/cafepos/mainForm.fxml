@@ -402,7 +402,7 @@
                                           <Font name="System Bold" size="20.0" />
                                        </font>
                                     </Label>
-                                    <TableView fx:id="customers_tableView" layoutX="10.0" layoutY="51.0" prefHeight="513.0" prefWidth="865.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="51.0">
+                                    <TableView fx:id="customers_tableView" layoutX="10.0" layoutY="51.0" prefHeight="480.0" prefWidth="865.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="51.0">
                                       <columns>
                                         <TableColumn fx:id="customers_col_customerID" prefWidth="75.0" text="Customer ID" />
                                         <TableColumn fx:id="customers_col_total" prefWidth="75.0" text="Total (LKR)" />
@@ -413,6 +413,7 @@
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
+                                    <Button fx:id="customer_removeBtn" layoutX="400.0" layoutY="534.0" mnemonicParsing="false" stylesheets="@style.css" text="Remove" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="406.5" />
                                  </children>
                               </AnchorPane>
                            </children>
