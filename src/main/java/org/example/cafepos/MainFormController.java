@@ -37,6 +37,28 @@ import java.util.*;
 
 public class MainFormController implements Initializable{
 
+    // Admin Form Components
+    @FXML private TableView<EmployeeData> admin_tableView;
+    @FXML private TableColumn<EmployeeData, Integer> admin_col_id;
+    @FXML private TableColumn<EmployeeData, String> admin_col_username;
+    @FXML private TableColumn<EmployeeData, String> admin_col_role;
+    @FXML private TextField admin_username;
+    @FXML private PasswordField admin_password;
+    @FXML private ComboBox<String> admin_role;
+    @FXML private ComboBox<String> admin_question;
+    @FXML private TextField admin_answer;
+    @FXML private Button admin_addBtn;
+    @FXML private Button admin_updateBtn;
+
+    private ObservableList<EmployeeData> adminUserList;
+    private int adminSelectedId = -1;
+
+    @FXML
+    private AnchorPane admin_form;
+
+    @FXML
+    private Button admin_btn;
+
     @FXML
     private Button customer_removeBtn;
 
@@ -1115,36 +1137,6 @@ public class MainFormController implements Initializable{
         customers_tableView.setItems(customersListData);
     }
 
-//    public void customerremoveData(){
-//        if (getid == 0) {
-//            alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Error Message");
-//            alert.setHeaderText(null);
-//            alert.setContentText("Please select the order you want to remove");
-//            alert.showAndWait();
-//        } else {
-//            String deleteData = "DELETE FROM customer WHERE id = " + getid;
-//            connect = Database.connectDB();
-//            try {
-//                alert = new Alert(Alert.AlertType.CONFIRMATION);
-//                alert.setTitle("Confirmation Message");
-//                alert.setHeaderText(null);
-//                alert.setContentText("Are you sure you want to delete this order?");
-//                Optional<ButtonType> option = alert.showAndWait();
-//
-//                if (option.get().equals(ButtonType.OK)) {
-//                    prepare = connect.prepareStatement(deleteData);
-//                    prepare.executeUpdate();
-//                }
-//
-//                menuShowOrderData();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-//    }
-
 
     public void switchForm(ActionEvent event) {
 
@@ -1153,6 +1145,7 @@ public class MainFormController implements Initializable{
             inventory_form.setVisible(false);
             menu_form.setVisible(false);
             customers_form.setVisible(false);
+            admin_form.setVisible(false);
 
             dashboardDisplayNC();
             dashboardDisplayTI();
@@ -1166,6 +1159,7 @@ public class MainFormController implements Initializable{
             inventory_form.setVisible(true);
             menu_form.setVisible(false);
             customers_form.setVisible(false);
+            admin_form.setVisible(false);
 
             inventoryTypeList();
             inventoryStatusList();
@@ -1175,6 +1169,7 @@ public class MainFormController implements Initializable{
             inventory_form.setVisible(false);
             menu_form.setVisible(true);
             customers_form.setVisible(false);
+            admin_form.setVisible(false);
 
             menuDisplayCard();
             menuDisplayTotal();
@@ -1185,8 +1180,18 @@ public class MainFormController implements Initializable{
             inventory_form.setVisible(false);
             menu_form.setVisible(false);
             customers_form.setVisible(true);
+            admin_form.setVisible(false);
 
             customersShowData();
+        }else if (event.getSource() == admin_btn && "admin".equals(data.role)) {
+            // Only show admin panel if user has admin role
+            dashboard_form.setVisible(false);
+            inventory_form.setVisible(false);
+            menu_form.setVisible(false);
+            customers_form.setVisible(false);
+            admin_form.setVisible(true);
+
+            adminRefreshData(); // Refresh data when switching to admin form
         }
 
     }
@@ -1235,8 +1240,235 @@ public class MainFormController implements Initializable{
 
     }
 
+
+//    ADMIN Section below
+
+    private void setupAdminSection() {
+        // Initialize combo boxes
+        admin_role.setItems(FXCollections.observableArrayList("admin", "cashier"));
+        admin_question.setItems(FXCollections.observableArrayList(
+                "Your secret that no one knows ?",
+                "Your favourite food ?",
+                "Your pets name ?"
+        ));
+
+        // Configure table columns
+        admin_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        admin_col_username.setCellValueFactory(new PropertyValueFactory<>("username"));
+        admin_col_role.setCellValueFactory(new PropertyValueFactory<>("role"));
+
+        // Load initial data
+        adminRefreshData();
+
+        // Set up table selection listener
+        admin_tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                adminSelectUser(newSelection);
+            }
+        });
+    }
+
+    private void adminRefreshData() {
+        String sql = "SELECT id, username, role, question, answer FROM employee";
+        adminUserList = FXCollections.observableArrayList();
+
+        connect = Database.connectDB();
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                adminUserList.add(new EmployeeData(
+                        result.getInt("id"),
+                        result.getString("username"),
+                        result.getString("role"),
+                        result.getString("question"),
+                        result.getString("answer")
+                ));
+            }
+
+            admin_tableView.setItems(adminUserList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void adminSelectUser(EmployeeData user) {
+        adminSelectedId = user.getId();
+        admin_username.setText(user.getUsername());
+        admin_role.setValue(user.getRole());
+        admin_question.setValue(user.getQuestion());
+        admin_answer.setText(user.getAnswer());
+        admin_password.setText(""); // Clear password field for security
+    }
+
+    @FXML
+    private void adminAddUserBtn() {
+        if (admin_username.getText().isEmpty() || admin_password.getText().isEmpty() ||
+                admin_role.getValue() == null || admin_question.getValue() == null ||
+                admin_answer.getText().isEmpty()) {
+
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all fields");
+            alert.showAndWait();
+            return;
+        }
+
+        String sql = "INSERT INTO employee (username, password, role, question, answer) VALUES (?,?,?,?,?)";
+        connect = Database.connectDB();
+
+        try {
+            // Check if username already exists
+            String checkUser = "SELECT username FROM employee WHERE username = ?";
+            prepare = connect.prepareStatement(checkUser);
+            prepare.setString(1, admin_username.getText());
+            result = prepare.executeQuery();
+
+            if (result.next()) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Username already exists");
+                alert.showAndWait();
+            } else {
+                prepare = connect.prepareStatement(sql);
+                prepare.setString(1, admin_username.getText());
+                prepare.setString(2, admin_password.getText()); // Note: In production, hash this password
+                prepare.setString(3, admin_role.getValue());
+                prepare.setString(4, admin_question.getValue());
+                prepare.setString(5, admin_answer.getText());
+
+                prepare.executeUpdate();
+
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("User added successfully");
+                alert.showAndWait();
+
+                adminRefreshData();
+                adminClearFields();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void adminUpdateUserBtn() {
+        if (adminSelectedId == -1) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a user to update");
+            alert.showAndWait();
+            return;
+        }
+
+        String sql = "UPDATE employee SET username=?, role=?, question=?, answer=?" +
+                (admin_password.getText().isEmpty() ? "" : ", password=?") +
+                " WHERE id=?";
+
+        connect = Database.connectDB();
+        try {
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, admin_username.getText());
+            prepare.setString(2, admin_role.getValue());
+            prepare.setString(3, admin_question.getValue());
+            prepare.setString(4, admin_answer.getText());
+
+            if (admin_password.getText().isEmpty()) {
+                prepare.setInt(5, adminSelectedId);
+            } else {
+                prepare.setString(5, admin_password.getText()); // Note: Hash this in production
+                prepare.setInt(6, adminSelectedId);
+            }
+
+            prepare.executeUpdate();
+
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Message");
+            alert.setHeaderText(null);
+            alert.setContentText("User updated successfully");
+            alert.showAndWait();
+
+            adminRefreshData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void adminDeleteUserBtn() {
+        if (adminSelectedId == -1) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a user to delete");
+            alert.showAndWait();
+            return;
+        }
+
+        // Prevent self-deletion
+        if (data.username.equals(admin_username.getText())) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("You cannot delete your own account");
+            alert.showAndWait();
+            return;
+        }
+
+        alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to delete this user?");
+        Optional<ButtonType> option = alert.showAndWait();
+
+        if (option.get() == ButtonType.OK) {
+            String sql = "DELETE FROM employee WHERE id = ?";
+            connect = Database.connectDB();
+            try {
+                prepare = connect.prepareStatement(sql);
+                prepare.setInt(1, adminSelectedId);
+                prepare.executeUpdate();
+
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("User deleted successfully");
+                alert.showAndWait();
+
+                adminRefreshData();
+                adminClearFields();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void adminClearFields() {
+        adminSelectedId = -1;
+        admin_username.setText("");
+        admin_password.setText("");
+        admin_role.getSelectionModel().clearSelection();
+        admin_question.getSelectionModel().clearSelection();
+        admin_answer.setText("");
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        if("admin".equals(data.role)) {
+            setupAdminSection();
+        } else {
+            admin_form.setVisible(false);
+            admin_btn.setVisible(false);
+        }
+
         displayUsername();
 
         dashboardDisplayNC();

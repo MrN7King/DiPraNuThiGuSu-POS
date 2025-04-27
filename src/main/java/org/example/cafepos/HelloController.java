@@ -123,7 +123,9 @@ public class HelloController {
             alert.setContentText("Please fill all blank fields");
             alert.showAndWait();
         }else {
-            String selectData = "SELECT username, password FROM employee WHERE username = ? AND password = ?";
+
+            String selectData = "SELECT username, password, role FROM employee WHERE username = ? AND password = ?";
+//            String selectData = "SELECT username, password FROM employee WHERE username = ? AND password = ?";
             connect = Database.connectDB();
 
             try {
@@ -138,11 +140,12 @@ public class HelloController {
                   {
                    //redirects if the login is correct
                       data.username = login_UserName.getText();
+                      data.role = result.getString("role"); // Get role from database
 
                       alert = new Alert(Alert.AlertType.INFORMATION);
                       alert.setTitle("Information Message");
                       alert.setHeaderText(null);
-                      alert.setContentText("Login Successful");
+                      alert.setContentText("Login Successful as " + data.role.toUpperCase());
                       alert.showAndWait();
 
                       // Main form link
