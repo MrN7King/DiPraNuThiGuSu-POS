@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="553.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FirstOptionController">
+
+
+    <Label fx:id="statusLabel" layoutX="20.0" layoutY="28.0" text="WELCOME TO THE UBER EATS TRACKING SYSTEM" />
+
+
+    <HBox layoutX="20.0" layoutY="60.0" spacing="10">
+        <Button fx:id="chooseFileButton" onAction="#handleChooseFile" text="📁 Choose File" />
+        <Button fx:id="uploadButton" onAction="#handleUploadFile" text="Upload" />
+    </HBox>
+
+    <!-- Filters -->
+    <HBox layoutX="20" layoutY="100" spacing="10">
+        <Label text="🔍 Filters:" />
+        <DatePicker fx:id="datePicker" />
+        <TextField fx:id="tripIdFilter" promptText="Trip ID" />
+        <TextField fx:id="customerFilter" promptText="Customer Name" />
+        <ComboBox fx:id="paymentMethodFilter" promptText="Payment Method">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="All" />
+                    <String fx:value="Card" />
+                    <String fx:value="Cash" />
+                    <String fx:value="Uber Eats" />
+                    <String fx:value="Digital Wallet" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <Button fx:id="clearFiltersButton" onAction="#handleClearFilters" text="Clear Filters" />
+    </HBox>
+
+
+    <TableView fx:id="dataTable" layoutX="8.0" layoutY="139.0" prefHeight="323.0" prefWidth="877.0">
+        <columns>
+            <TableColumn fx:id="idColumn" prefWidth="40.88887405395508" text="ID" />
+            <TableColumn fx:id="tripIdColumn" prefWidth="73.77779388427734" text="Trip ID" />
+            <TableColumn fx:id="requestTimeColumn" prefWidth="104.22219848632812" text="Request Time" />
+            <TableColumn fx:id="dropoffTimeColumn" prefWidth="101.55545043945312" text="Dropoff Time" />
+            <TableColumn fx:id="dropoffAddressColumn" prefWidth="142.666748046875" text="Dropoff Address" />
+            <TableColumn fx:id="customerNameColumn" prefWidth="128.00003051757812" text="Customer Name" />
+            <TableColumn fx:id="transactionAmountColumn" prefWidth="75.3333740234375" text="Amount" />
+            <TableColumn fx:id="commissionColumn" prefWidth="84.666748046875" text="Commission" />
+            <TableColumn fx:id="paymentMethodColumn" prefWidth="119.333251953125" text="Payment Method" />
+        </columns>
+    </TableView>
+
+
+    <HBox layoutX="10.0" layoutY="481.0" spacing="15">
+        <Button fx:id="addNewRecordButton" onAction="#handleAddNewRecord" text="➕ Add Record" />
+        <Button fx:id="editRecordButton" onAction="#handleEditRecord" text="✏ Edit Record" />
+        <Button fx:id="deleteRecordButton" onAction="#handleDeleteRecord" text="🗑 Delete Record" />
+        <Button fx:id="exportButton" onAction="#handleExportData" text="📄 Export to PDF" />
+        <Button fx:id="undoButton" onAction="#handleUndo" text="↩ Undo" />
+        <Button fx:id="redoButton" onAction="#handleRedo" text="↪ Redo" />
+    </HBox>
+
+</AnchorPane>
