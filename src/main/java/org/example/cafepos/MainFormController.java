@@ -7,33 +7,39 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
+
+import java.awt.*;
 import java.io.File;
 import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
 
 public class MainFormController implements Initializable{
 
@@ -49,64 +55,56 @@ public class MainFormController implements Initializable{
     @FXML private TextField admin_answer;
     @FXML private Button admin_addBtn;
     @FXML private Button admin_updateBtn;
-
+    @FXML private Button admin_deleteBtn;
+    @FXML private Button admin_printBtn;
     private ObservableList<EmployeeData> adminUserList;
     private int adminSelectedId = -1;
-
-    @FXML
-    private AnchorPane admin_form;
-
-    @FXML
-    private Button admin_btn;
-
-    @FXML
-    private Button customer_removeBtn;
-
-    @FXML
-    private BarChart<?, ?> dashboard_CustomerChart;
-
-    @FXML
-    private Label dashboard_NC;
-
-    @FXML
-    private Label dashboard_NSP;
-
-    @FXML
-    private Label dashboard_TI;
-
-    @FXML
-    private Label dashboard_TotalI;
-
-    @FXML
-    private Button dashboard_btn;
-
-    @FXML
-    private AnchorPane dashboard_form;
-
-    @FXML
-    private AreaChart<?, ?> dashboard_incomeChart;
+    @FXML private AnchorPane admin_form;
+    @FXML private Button admin_btn;
 
 
-    @FXML
-    private Button customers_btn;
+    // Dashboard
+    @FXML  private Label dashboard_NC;
+    @FXML  private Label dashboard_NSP;
+    @FXML  private Label dashboard_TI;
+    @FXML  private Label dashboard_TotalI;
+    @FXML  private Button dashboard_btn;
+    @FXML  private AnchorPane dashboard_form;
+    @FXML  private AreaChart<String, Number> dashboard_incomeChart;
+    @FXML  private BarChart<String, Number> dashboard_CustomerChart;
+    // Dashboard Transaction Modal Controls Admin only
+    @FXML private AnchorPane dashboardAdmin_form;
+    @FXML private StackPane transactionModal;
+    @FXML private StackPane dayIncomeForm;
+    @FXML private TextField transactionID;
+    @FXML private ComboBox<Receipt> transactionSelectionCombo;
+    @FXML private DatePicker transactionDatePicker;
+    @FXML private TextField transactionAmountField;
+    @FXML private ComboBox<Integer> transactionCustomerCombo;
+    @FXML private Button addTransactionBtn;
+    @FXML private Button updateTransactionBtn;
+    @FXML private Button deleteTransactionBtn;
+    @FXML private Button cancelTransactionBtn;
+    // duplicated variables
+    @FXML private BarChart<String, Number> dashboard_CustomerChart1;
+    @FXML private Label dashboard_NC1;
+    @FXML private Label dashboard_NSP1;
+    @FXML private Label dashboard_TI1;
+    @FXML private Label dashboard_TotalI1;
+    @FXML private AreaChart<String, Number> dashboard_incomeChart1;
+    @FXML private StackPane customerChartForm;
+    @FXML private Button dashboardPrintBtn;
 
-    @FXML
-    private TableView<customersData> customers_tableView;
 
-    @FXML
-    private TableColumn<customersData, String> customers_col_cashier;
 
-    @FXML
-    private TableColumn<customersData, String> customers_col_customerID;
-
-    @FXML
-    private TableColumn<customersData, String> customers_col_date;
-
-    @FXML
-    private TableColumn<customersData, String> customers_col_total;
-
-    @FXML
-    private AnchorPane customers_form;
+    // customers
+    @FXML private Button customers_btn;
+    @FXML private TableView<customersData> customers_tableView;
+    @FXML private TableColumn<customersData, String> customers_col_cashier;
+    @FXML private TableColumn<customersData, String> customers_col_customerID;
+    @FXML private TableColumn<customersData, String> customers_col_date;
+    @FXML private TableColumn<customersData, String> customers_col_total;
+    @FXML private AnchorPane customers_form;
 
 
     @FXML
@@ -246,9 +244,8 @@ public class MainFormController implements Initializable{
 
 
     //dashboard thivaker
-    public void dashboardDisplayNC() {
-
-        String sql = "SELECT COUNT(id) FROM receipt";
+    public void dashboardDisplayNC(Label ncLabel) {
+        String sql = "SELECT COUNT(DISTINCT customer_id) FROM receipt";
         connect = Database.connectDB();
 
         try {
@@ -257,127 +254,612 @@ public class MainFormController implements Initializable{
             result = prepare.executeQuery();
 
             if (result.next()) {
-                nc = result.getInt("COUNT(id)");
+                nc = result.getInt(1);
             }
-            dashboard_NC.setText(String.valueOf(nc));
+            ncLabel.setText(String.valueOf(nc)); // Use the parameter instead of dashboard_NC
         } catch (Exception e) {
             e.printStackTrace();
+            ncLabel.setText("0"); // Use the parameter here too
+        } finally {
+            closeResources();
         }
-
     }
 
-
-    public void dashboardDisplayTI() {
-
-
+    public void dashboardDisplayTI(Label tiLabel) {
         LocalDate today = LocalDate.now();
-        java.sql.Date sqlDate = Date.valueOf(today);
-
-        String sql = "SELECT SUM(total) FROM receipt WHERE date = '"
-                + sqlDate + "'";
-
+        String sql = "SELECT COALESCE(SUM(total), 0) FROM receipt WHERE date = ?";
         connect = Database.connectDB();
 
         try {
+            prepare = connect.prepareStatement(sql);
+            prepare.setDate(1, Date.valueOf(today));
+            result = prepare.executeQuery();
+
             double ti = 0;
-            prepare = connect.prepareStatement(sql);
-            result = prepare.executeQuery();
-
             if (result.next()) {
-                ti = result.getDouble("SUM(total)");
+                ti = result.getDouble(1);
             }
-
-            dashboard_TI.setText("$" + ti);
-
+            tiLabel.setText(String.format("LKR %.2f", ti)); // Use parameter
         } catch (Exception e) {
             e.printStackTrace();
+            tiLabel.setText("LKR 0.00"); // Use parameter
+        } finally {
+            closeResources();
         }
     }
 
-
-    public void dashboardTotalI() {
-        String sql = "SELECT SUM(total) FROM receipt";
-
+    public void dashboardTotalI(Label totalTiLabel) {
+        String sql = "SELECT COALESCE(SUM(total), 0) FROM receipt";
         connect = Database.connectDB();
 
         try {
-            float ti = 0;
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
 
+            double ti = 0;
             if (result.next()) {
-                ti = result.getFloat("SUM(total)");
+                ti = result.getDouble(1);
             }
-            dashboard_TotalI.setText("$" + ti);
-
+            totalTiLabel.setText(String.format("LKR %.2f", ti)); // Use parameter
         } catch (Exception e) {
             e.printStackTrace();
+            totalTiLabel.setText("LKR 0.00"); // Use parameter
+        } finally {
+            closeResources();
         }
     }
 
-
-    public void dashboardNSP() {
-
-        String sql = "SELECT COUNT(quantity) FROM customer";
-
+    public void dashboardNSP(Label nspLabel) {
+        String sql = "SELECT COALESCE(SUM(quantity), 0) FROM customer";
         connect = Database.connectDB();
 
         try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
             int q = 0;
-            prepare = connect.prepareStatement(sql);
-            result = prepare.executeQuery();
-
             if (result.next()) {
-                q = result.getInt("COUNT(quantity)");
+                q = result.getInt(1);
             }
-            dashboard_NSP.setText(String.valueOf(q));
+            nspLabel.setText(String.valueOf(q)); // Use parameter
+        } catch (Exception e) {
+            e.printStackTrace();
+            nspLabel.setText("0"); // Use parameter
+        } finally {
+            closeResources();
+        }
+    }
+
+
+
+    public void dashboardIncomeChart(AreaChart<String, Number> chart) {
+        if (chart == null) return;
+
+        chart.getData().clear();
+        String sql = "SELECT date, COALESCE(SUM(total), 0) FROM receipt GROUP BY date ORDER BY date";
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = Database.connectDB();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Daily Income");
+
+            while (rs.next()) {
+                String date = rs.getString(1);
+                Number total = rs.getDouble(2);
+                XYChart.Data<String, Number> data = new XYChart.Data<>(date, total);
+
+                // Make data points clickable by adding a node
+                Node node = data.getNode();
+                if (node == null) {
+                    node = new StackPane();
+                    data.setNode(node);
+                }
+
+                series.getData().add(data);
+            }
+
+            chart.getData().add(series);
+            chart.setLegendVisible(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public void dashboardCustomerChart(BarChart<String, Number> chart) {
+        chart.getData().clear();
+        String sql = "SELECT date, COUNT(DISTINCT customer_id) FROM receipt GROUP BY date ORDER BY date";
+
+        try (Connection conn = Database.connectDB();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Daily Customers");
+
+            while (rs.next()) {
+                String date = rs.getString(1);
+                Number count = rs.getInt(2);
+                series.getData().add(new XYChart.Data<>(date, count));
+            }
+
+            chart.getData().add(series);
+            chart.setLegendVisible(true);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-    public void dashboardIncomeChart() {
-        dashboard_incomeChart.getData().clear();
-
-        String sql = "SELECT date, SUM(total) FROM receipt GROUP BY date ORDER BY TIMESTAMP(date)";
-        connect = Database.connectDB();
-        XYChart.Series chart = new XYChart.Series();
+    private void closeResources() {
         try {
-            prepare = connect.prepareStatement(sql);
-            result = prepare.executeQuery();
-
-            while (result.next()) {
-                chart.getData().add(new XYChart.Data<>(result.getString(1), result.getFloat(2)));
-            }
-
-            dashboard_incomeChart.getData().add(chart);
-
+            if (result != null) result.close();
+            if (prepare != null) prepare.close();
+            if (connect != null) connect.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //admin Dashboard
+    // Initialize transaction modal components
+    private void initializeTransactionModal() {
+        transactionModal.setVisible(false);
+        updateTransactionBtn.setDisable(true);
+        deleteTransactionBtn.setDisable(true);
 
-    public void dashboardCustomerChart(){
-        dashboard_CustomerChart.getData().clear();
+        // Load customer IDs and transactions
+        loadCustomerIDs();
+        loadTransactions();
 
-        String sql = "SELECT date, COUNT(id) FROM receipt GROUP BY date ORDER BY TIMESTAMP(date)";
-        connect = Database.connectDB();
-        XYChart.Series chart = new XYChart.Series();
+        // Set up transaction selection listener
+        transactionSelectionCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                showEditTransactionModal(newVal);
+            }
+        });
+    }
+
+    private void loadCustomerIDs() {
         try {
+            connect = Database.connectDB();
+            String sql = "SELECT DISTINCT customer_id FROM customer ORDER BY customer_id";
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
 
+            ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
             while (result.next()) {
-                chart.getData().add(new XYChart.Data<>(result.getString(1), result.getInt(2)));
+                customerIDs.add(result.getInt("customer_id"));
             }
-
-            dashboard_CustomerChart.getData().add(chart);
-
+            transactionCustomerCombo.setItems(customerIDs);
         } catch (Exception e) {
             e.printStackTrace();
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to load customer IDs");
+            alert.showAndWait();
+        } finally {
+            closeResources();
+        }
+    }
+
+    private void loadTransactions() {
+        try {
+            connect = Database.connectDB();
+            String sql = "SELECT * FROM receipt ORDER BY date DESC";
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            ObservableList<Receipt> transactions = FXCollections.observableArrayList();
+            while (result.next()) {
+                transactions.add(new Receipt(
+                        result.getInt("id"),
+                        result.getInt("customer_id"),
+                        result.getDouble("total"),
+                        result.getDate("date").toLocalDate(),
+                        result.getString("em_username")
+                ));
+            }
+            transactionSelectionCombo.setItems(transactions);
+
+            // Set custom cell factory to display meaningful text
+            transactionSelectionCombo.setCellFactory(param -> new ListCell<Receipt>() {
+                @Override
+                protected void updateItem(Receipt item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(String.format("ID: %d - Date: %s - Amount: LKR %.2f",
+                                item.getId(),
+                                item.getDate().toString(),
+                                item.getTotal()));
+                    }
+                }
+            });
+
+            transactionSelectionCombo.setButtonCell(new ListCell<Receipt>() {
+                @Override
+                protected void updateItem(Receipt item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText("Select a transaction");
+                    } else {
+                        setText(String.format("ID: %d - Date: %s - Amount: LKR %.2f",
+                                item.getId(),
+                                item.getDate().toString(),
+                                item.getTotal()));
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to load transactions");
+            alert.showAndWait();
+        } finally {
+            closeResources();
+        }
+    }
+
+
+    public void showAddTransactionModal() {
+        // Clear selection first
+        transactionSelectionCombo.getSelectionModel().clearSelection();
+
+        // Generate a new transaction ID
+        try {
+            connect = Database.connectDB();
+            String sql = "SELECT MAX(id) FROM receipt";
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            int newId = 1;
+            if (result.next()) {
+                newId = result.getInt(1) + 1;
+            }
+            transactionID.setText(String.valueOf(newId));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+
+        transactionDatePicker.setValue(LocalDate.now());
+        transactionAmountField.clear();
+        transactionID.clear();
+        transactionCustomerCombo.getSelectionModel().clearSelection();
+
+        updateTransactionBtn.setDisable(true);
+        deleteTransactionBtn.setDisable(true);
+
+        customerChartForm.setVisible(false);
+        transactionModal.setVisible(true);
+    }
+
+    public void showEditTransactionModal(Receipt receipt) {
+        try {
+            transactionID.setText(String.valueOf(receipt.getId()));
+            transactionDatePicker.setValue(receipt.getDate());
+            transactionAmountField.setText(String.format("%.2f", receipt.getTotal()));
+
+            if (!transactionCustomerCombo.getItems().contains(receipt.getCustomerId())) {
+                loadCustomerIDs();
+            }
+            transactionCustomerCombo.getSelectionModel().select((Integer)receipt.getCustomerId());
+
+            updateTransactionBtn.setDisable(false);
+            deleteTransactionBtn.setDisable(false);
+
+            // Hide customer chart and show transaction form
+            customerChartForm.setVisible(false);
+            transactionModal.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to load transaction data");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleCancelTransaction() {
+        // Show customer chart and hide transaction form
+        transactionModal.setVisible(false);
+        customerChartForm.setVisible(true);
+    }
+
+    @FXML
+    private void handleAddTransaction() {
+        if (validateTransactionInput()) {
+            try {
+                connect = Database.connectDB();
+                String sql = "INSERT INTO receipt (id, customer_id, total, date, em_username) VALUES (?,?,?,?,?)";
+                prepare = connect.prepareStatement(sql);
+
+                prepare.setInt(1, Integer.parseInt(transactionID.getText()));
+                prepare.setInt(2, transactionCustomerCombo.getValue());
+                prepare.setDouble(3, Double.parseDouble(transactionAmountField.getText()));
+                prepare.setDate(4, Date.valueOf(transactionDatePicker.getValue()));
+                prepare.setString(5, data.username);
+
+                prepare.executeUpdate();
+
+                // Refresh data and close modal
+                loadTransactions();
+                refreshBothDashboards();
+                transactionModal.setVisible(false);
+                customerChartForm.setVisible(true);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to add transaction");
+                alert.showAndWait();
+            } finally {
+                closeResources();
+            }
+        }
+    }
+
+    @FXML
+    private void handleUpdateTransaction() {
+        if (!validateTransactionInput()) return;
+
+        try {
+            connect = Database.connectDB();
+            String sql = "UPDATE receipt SET customer_id=?, total=?, date=? WHERE id=?";
+            prepare = connect.prepareStatement(sql);
+
+            prepare.setInt(1, transactionCustomerCombo.getValue());
+            prepare.setDouble(2, Double.parseDouble(transactionAmountField.getText()));
+            prepare.setDate(3, Date.valueOf(transactionDatePicker.getValue()));
+            prepare.setInt(4, Integer.parseInt(transactionID.getText()));
+
+            int affectedRows = prepare.executeUpdate();
+
+            if (affectedRows > 0) {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("Transaction updated successfully");
+                alert.showAndWait();
+
+                // Refresh the transaction list
+                loadTransactions();
+                refreshBothDashboards();
+                transactionModal.setVisible(false);
+                customerChartForm.setVisible(true);
+            } else {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("No transaction was updated");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to update transaction: " + e.getMessage());
+            alert.showAndWait();
+        } finally {
+            closeResources();
+        }
+    }
+
+    @FXML
+    private void handleDeleteTransaction() {
+        try {
+            String transactionId = transactionID.getText();
+            if (transactionId.isEmpty()) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("No transaction selected");
+                alert.showAndWait();
+                return;
+            }
+
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Confirm Deletion");
+            confirm.setHeaderText("Delete Transaction #" + transactionId);
+            confirm.setContentText("Are you sure you want to delete this transaction?");
+
+            Optional<ButtonType> result = confirm.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                connect = Database.connectDB();
+                String sql = "DELETE FROM receipt WHERE id=?";
+                prepare = connect.prepareStatement(sql);
+                prepare.setInt(1, Integer.parseInt(transactionId));
+
+                int affectedRows = prepare.executeUpdate();
+
+                if (affectedRows > 0) {
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Transaction deleted successfully");
+                    alert.showAndWait();
+
+                    // Refresh the transaction list
+                    loadTransactions();
+                    refreshBothDashboards();
+                    transactionModal.setVisible(false);
+                    customerChartForm.setVisible(true);
+                } else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No transaction was deleted");
+                    alert.showAndWait();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to delete transaction: " + e.getMessage());
+            alert.showAndWait();
+        } finally {
+            closeResources();
+        }
+    }
+
+    // Validate transaction input
+    private boolean validateTransactionInput() {
+        try {
+            if (transactionCustomerCombo.getValue() == null) {
+                alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Validation Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select a customer");
+                alert.showAndWait();
+                return false;
+            }
+            if (transactionDatePicker.getValue() == null) {
+                alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Validation Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select a date");
+                alert.showAndWait();
+                return false;
+            }
+            Double.parseDouble(transactionAmountField.getText());
+            return true;
+        } catch (NumberFormatException e) {
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Validation Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter a valid amount");
+            alert.showAndWait();
+            return false;
+        }
+    }
+
+    // Refresh dashboard data
+    private void refreshBothDashboards() {
+        // Always refresh admin dashboard data (even if not visible)
+        dashboardDisplayNC(dashboard_NC1);
+        dashboardDisplayTI(dashboard_TI1);
+        dashboardTotalI(dashboard_TotalI1);
+        dashboardNSP(dashboard_NSP1);
+        dashboardIncomeChart(dashboard_incomeChart1);
+        dashboardCustomerChart(dashboard_CustomerChart1);
+
+        // Always refresh regular dashboard data (even if not visible)
+        dashboardDisplayNC(dashboard_NC);
+        dashboardDisplayTI(dashboard_TI);
+        dashboardTotalI(dashboard_TotalI);
+        dashboardNSP(dashboard_NSP);
+        dashboardIncomeChart(dashboard_incomeChart);
+        dashboardCustomerChart(dashboard_CustomerChart);
+    }
+
+
+    // Find receipt in database
+    private Receipt findReceiptByDateAndAmount(String dateStr, double amount) {
+        try {
+            connect = Database.connectDB();
+            String sql = "SELECT * FROM receipt WHERE date = ? AND total = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setDate(1, Date.valueOf(dateStr));
+            prepare.setDouble(2, amount);
+
+            result = prepare.executeQuery();
+            if (result.next()) {
+                return new Receipt(
+                        result.getInt("id"),
+                        result.getInt("customer_id"),
+                        result.getDouble("total"),
+                        result.getDate("date").toLocalDate(),
+                        result.getString("em_username")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+        return null;
+    }
+
+    @FXML
+    private void handleDashboardPrint() {
+        try {
+            // Create file chooser
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Dashboard Report");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("PDF Files", "*.pdf"),
+                    new FileChooser.ExtensionFilter("All Files", "*.*"));
+
+            // Set default filename
+            fileChooser.setInitialFileName("cafe_dashboard_" +
+                    LocalDate.now().format(DateTimeFormatter.ISO_DATE) + ".pdf");
+
+            // Show save dialog
+            File file = fileChooser.showSaveDialog(main_form.getScene().getWindow());
+
+            if (file != null) {
+                // Get current dashboard values
+                int totalCustomers = Integer.parseInt(dashboard_NC.getText());
+                double todayIncome = Double.parseDouble(dashboard_TI.getText().replace("LKR", "").trim());
+                double totalIncome = Double.parseDouble(dashboard_TotalI.getText().replace("LKR", "").trim());
+                int totalSales = Integer.parseInt(dashboard_NSP.getText());
+
+                // Generate PDF
+                DashboardPDFGenerator.generateDashboardReport(
+                        totalCustomers,
+                        todayIncome,
+                        totalIncome,
+                        totalSales,
+                        file.getAbsolutePath());
+
+                // Show success message
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("Dashboard report saved successfully!");
+                alert.showAndWait();
+
+                // Open the PDF if desktop is supported
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(file);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to generate report: " + e.getMessage());
+            alert.showAndWait();
         }
     }
 
@@ -776,6 +1258,7 @@ public class MainFormController implements Initializable{
                 AnchorPane pane = load.load();
                 cardProductController cardC = load.getController();
                 cardC.setData(cardListData.get(q));
+                cardC.setMainFormController(this);
 
                 if (column == 3) {
                     column = 0;
@@ -1018,32 +1501,53 @@ public class MainFormController implements Initializable{
 
 
     public void menuReceiptBtn() {
-
         if (totalP == 0 || menu_amount.getText().isEmpty()) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
-            alert.setContentText("Please order first");
+            alert.setContentText("Please complete an order first");
             alert.showAndWait();
         } else {
-            HashMap map = new HashMap();
-            map.put("getReceipt", (cID - 1));
-
             try {
+                // Prepare receipt data
+                List<ProductData> orderItems = menu_tableView.getItems();
+                double total = Double.parseDouble(menu_total.getText().replace("LKR", "").trim());
+                double amountPaid = Double.parseDouble(menu_amount.getText());
+                double change = Double.parseDouble(menu_change.getText().replace("LKR", "").trim());
 
-                JasperDesign jDesign = JRXmlLoader.load("/Users/dilaksan/IdeaProjects/CafePOS/src/main/resources/org/example/cafepos/report.jrxml");
-                JasperReport jReport = JasperCompileManager.compileReport(jDesign);
-                JasperPrint jPrint = JasperFillManager.fillReport(jReport, map, connect);
+                // Generate unique filename
+                String receiptPath = "receipt_" + System.currentTimeMillis() + ".pdf";
 
-                JasperViewer.viewReport(jPrint, false);
+                // Generate receipt
+                ReceiptGenerator.generateReceipt(
+                        orderItems,
+                        total,
+                        amountPaid,
+                        change,
+                        data.username,
+                        receiptPath
+                );
 
-                menuRestart();
+                // Open the receipt
+                File file = new File(receiptPath);
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(file);
+                }
+
+                // Optional: Print the receipt directly
+                // PrinterJob job = PrinterJob.createPrinterJob();
+                // if (job != null && job.showPrintDialog(null)) {
+                //     job.printPage(file);
+                //     job.endJob();
+                // }
 
             } catch (Exception e) {
                 e.printStackTrace();
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setContentText("Failed to generate receipt: " + e.getMessage());
+                alert.showAndWait();
             }
-
         }
-
     }
 
 
@@ -1051,9 +1555,9 @@ public class MainFormController implements Initializable{
         totalP = 0;
         change = 0;
         amount = 0;
-        menu_total.setText("$0.0");
+        menu_total.setText("LKR0.0");
         menu_amount.setText("");
-        menu_change.setText("$0.0");
+        menu_change.setText("LKR0.0");
     }
 
 
@@ -1139,23 +1643,28 @@ public class MainFormController implements Initializable{
 
 
     public void switchForm(ActionEvent event) {
-
         if (event.getSource() == dashboard_btn) {
-            dashboard_form.setVisible(true);
+            if ("admin".equals(data.role)) {
+                switchToAdminDashboard();
+            } else {
+                switchToCashierDashboard();
+            }
+            refreshBothDashboards();
+        }
+        else if (event.getSource() == admin_btn && "admin".equals(data.role)) {
+            // Admin management form
+            dashboard_form.setVisible(false);
+            dashboardAdmin_form.setVisible(false);
             inventory_form.setVisible(false);
             menu_form.setVisible(false);
             customers_form.setVisible(false);
-            admin_form.setVisible(false);
+            admin_form.setVisible(true);
 
-            dashboardDisplayNC();
-            dashboardDisplayTI();
-            dashboardTotalI();
-            dashboardNSP();
-            dashboardIncomeChart();
-            dashboardCustomerChart();
-
-        } else if (event.getSource() == inventory_btn) {
+            adminRefreshData();
+        }
+        else if (event.getSource() == inventory_btn) {
             dashboard_form.setVisible(false);
+            dashboardAdmin_form.setVisible(false);
             inventory_form.setVisible(true);
             menu_form.setVisible(false);
             customers_form.setVisible(false);
@@ -1164,8 +1673,10 @@ public class MainFormController implements Initializable{
             inventoryTypeList();
             inventoryStatusList();
             inventoryShowData();
-        } else if (event.getSource() == menu_btn) {
+        }
+        else if (event.getSource() == menu_btn) {
             dashboard_form.setVisible(false);
+            dashboardAdmin_form.setVisible(false);
             inventory_form.setVisible(false);
             menu_form.setVisible(true);
             customers_form.setVisible(false);
@@ -1174,28 +1685,18 @@ public class MainFormController implements Initializable{
             menuDisplayCard();
             menuDisplayTotal();
             menuShowOrderData();
-       }
+        }
         else if (event.getSource() == customers_btn) {
             dashboard_form.setVisible(false);
+            dashboardAdmin_form.setVisible(false);
             inventory_form.setVisible(false);
             menu_form.setVisible(false);
             customers_form.setVisible(true);
             admin_form.setVisible(false);
 
             customersShowData();
-        }else if (event.getSource() == admin_btn && "admin".equals(data.role)) {
-            // Only show admin panel if user has admin role
-            dashboard_form.setVisible(false);
-            inventory_form.setVisible(false);
-            menu_form.setVisible(false);
-            customers_form.setVisible(false);
-            admin_form.setVisible(true);
-
-            adminRefreshData(); // Refresh data when switching to admin form
         }
-
     }
-
 
     public void logout() {
 
@@ -1458,35 +1959,106 @@ public class MainFormController implements Initializable{
         admin_answer.setText("");
     }
 
+    @FXML
+    private void userDataPrintButton() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save User Report");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PDF Files", "*.pdf"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+
+        fileChooser.setInitialFileName(
+                "cafe_users_" + LocalDate.now().format(DateTimeFormatter.ISO_DATE) + ".pdf");
+
+        File file = fileChooser.showSaveDialog(admin_form.getScene().getWindow());
+
+        if (file != null) {
+            try {
+                PDFGeneratorUserManagement.generateUserReport(
+                        admin_tableView.getItems(),
+                        file.getAbsolutePath()
+                );
+
+                // Open the generated PDF
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(file);
+                }
+
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Report Generated, User report saved successfully");
+                alert.showAndWait();
+
+            } catch (Exception e) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Generation Failed, Could not generate report: " + e.getMessage());
+                alert.showAndWait();
+
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void switchToAdminDashboard() {
+        dashboardAdmin_form.setVisible(true);
+        dashboard_form.setVisible(false);
+        dayIncomeForm.setVisible(true);
+        customerChartForm.setVisible(true);
+        transactionModal.setVisible(false);
+
+        inventory_form.setVisible(false);
+        menu_form.setVisible(false);
+        customers_form.setVisible(false);
+        admin_form.setVisible(false);
+    }
+
+    private void switchToCashierDashboard() {
+        dashboardAdmin_form.setVisible(false);
+        dashboard_form.setVisible(true);
+
+        inventory_form.setVisible(false);
+        menu_form.setVisible(false);
+        customers_form.setVisible(false);
+        admin_form.setVisible(false);
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        if("admin".equals(data.role)) {
-            setupAdminSection();
-        } else {
-            admin_form.setVisible(false);
-            admin_btn.setVisible(false);
-        }
-
+        // Display username in the UI
         displayUsername();
 
-        dashboardDisplayNC();
-        dashboardDisplayTI();
-        dashboardTotalI();
-        dashboardNSP();
-        dashboardIncomeChart();
-        dashboardCustomerChart();
-
+        // Initialize common components
+        initializeTransactionModal();
+        refreshBothDashboards();
         inventoryTypeList();
         inventoryStatusList();
         inventoryShowData();
-
         menuDisplayCard();
         menuGetOrder();
         menuShowOrderData();
         menuDisplayTotal();
-
         customersShowData();
+
+        // Set up admin section if user is admin
+        if ("admin".equals(data.role)) {
+            setupAdminSection();
+            addTransactionBtn.setVisible(true);
+            admin_btn.setVisible(true);
+
+            // Show admin dashboard by default
+            switchToAdminDashboard();
+        } else {
+            // Hide admin-only elements for regular users
+            admin_form.setVisible(false);
+            admin_btn.setVisible(false);
+            addTransactionBtn.setVisible(false);
+
+            // Show regular dashboard
+            switchToCashierDashboard();
+        }
     }
 }

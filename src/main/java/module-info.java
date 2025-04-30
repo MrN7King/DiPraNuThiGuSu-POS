@@ -3,7 +3,8 @@ module org.example.cafepos {
     requires javafx.fxml;
     requires java.sql;
     requires mysql.connector.j;
-    requires jasperreports;
+    requires org.apache.pdfbox;
+    requires java.desktop;
 
 
     opens org.example.cafepos to javafx.fxml;
