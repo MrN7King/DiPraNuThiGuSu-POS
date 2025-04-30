@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
@@ -1695,6 +1696,22 @@ public class MainFormController implements Initializable{
             admin_form.setVisible(false);
 
             customersShowData();
+        }
+        else if (event.getSource() == uber_btn) {
+            // Open Uber.fxml
+            try {
+                // Load Uber.fxml
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Uber.fxml"));
+                Parent root = loader.load();
+
+                // Get the current stage
+                Stage stage = (Stage) uber_btn.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
