@@ -9,6 +9,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
@@ -22,7 +23,10 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
@@ -55,13 +59,13 @@
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="dashboard_btn" layoutX="34.0" layoutY="234.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="120.0" styleClass="nav-btn" text="Dashboard" AnchorPane.topAnchor="234.0" />
-                              <Button fx:id="inventory_btn" layoutX="32.0" layoutY="289.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="120.0" styleClass="nav-btn" text="Inventory" />
-                              <Button fx:id="menu_btn" layoutX="32.0" layoutY="344.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="120.0" styleClass="nav-btn" text="Menu" />
-                              <Button fx:id="customers_btn" layoutX="31.0" layoutY="398.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="120.0" styleClass="nav-btn" text="Customers" />
+                              <Button fx:id="dashboard_btn" layoutX="34.0" layoutY="231.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="120.0" styleClass="nav-btn" text="Dashboard" AnchorPane.topAnchor="231.0" />
+                              <Button fx:id="inventory_btn" layoutX="32.0" layoutY="281.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="120.0" styleClass="nav-btn" text="Inventory" />
+                              <Button fx:id="menu_btn" layoutX="32.0" layoutY="332.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="120.0" styleClass="nav-btn" text="Menu" />
+                              <Button fx:id="customers_btn" layoutX="31.0" layoutY="383.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="120.0" styleClass="nav-btn" text="Customers" />
                               <Button fx:id="logout_btn" layoutX="50.0" layoutY="548.0" mnemonicParsing="false" onMouseClicked="#logout" styleClass="signOutbtn" text="Sign Out" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="50.0" />
-                              <Button fx:id="uber_btn" layoutX="31.0" layoutY="451.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="120.0" styleClass="nav-btn" text="Uber" />
-                              <Button fx:id="admin_btn" layoutX="32.0" layoutY="501.0" mnemonicParsing="false" onAction="#switchForm" styleClass="nav-btn" text="Manage Users" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="42.0" />
+                              <Button fx:id="uber_btn" layoutX="31.0" layoutY="435.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="30.0" prefWidth="120.0" styleClass="nav-btn" text="Uber" />
+                              <Button fx:id="admin_btn" layoutX="32.0" layoutY="486.0" mnemonicParsing="false" onAction="#switchForm" styleClass="nav-btn" text="Manage Users" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="42.0" />
                               <Line endX="121.00001525878906" layoutX="69.0" layoutY="164.0" startX="-69.0" stroke="WHITE" strokeWidth="2.0" />
                            </children>
                         </AnchorPane>
@@ -71,7 +75,7 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" stylesheets="@mainFormDesign.css" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="dashboard_form" layoutX="357.0" layoutY="216.0" prefHeight="600.0" prefWidth="913.0" stylesheets="@mainFormDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="dashboard_form" layoutX="357.0" layoutY="216.0" prefHeight="600.0" prefWidth="913.0" stylesheets="@mainFormDesign.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="21.0" layoutY="13.0" prefHeight="200.0" prefWidth="892.0" stylesheets="@mainFormDesign.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                                  <styleClass>
@@ -491,11 +495,265 @@
                                     <TextField fx:id="admin_answer" layoutX="627.0" layoutY="108.0" styleClass="textfield" />
                                     <Button fx:id="admin_addBtn" layoutX="173.0" layoutY="233.0" mnemonicParsing="false" onAction="#adminAddUserBtn" prefWidth="130.0" text="Add" AnchorPane.bottomAnchor="80.0" />
                                     <Button fx:id="admin_updateBtn" layoutX="324.0" layoutY="234.0" mnemonicParsing="false" onAction="#adminUpdateUserBtn" prefWidth="130.0" text="Update" AnchorPane.bottomAnchor="80.0" />
-                                    <Button layoutX="476.0" layoutY="234.0" mnemonicParsing="false" onAction="#adminDeleteUserBtn" prefWidth="130.0" text="Delete" AnchorPane.bottomAnchor="80.0" />
-                                    <Button layoutX="628.0" layoutY="235.0" mnemonicParsing="false" prefWidth="130.0" text="Print" AnchorPane.bottomAnchor="80.0" />
+                                    <Button fx:id="admin_deleteBtn" layoutX="476.0" layoutY="234.0" mnemonicParsing="false" onAction="#adminDeleteUserBtn" prefWidth="130.0" text="Delete" AnchorPane.bottomAnchor="80.0" />
+                                    <Button fx:id="admin_printBtn" layoutX="628.0" layoutY="235.0" mnemonicParsing="false" onAction="#userDataPrintButton" prefWidth="130.0" text="Print" AnchorPane.bottomAnchor="80.0" />
                                  </children>
                               </AnchorPane>
                            </children></AnchorPane>
+                        <AnchorPane fx:id="dashboardAdmin_form" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="913.0" stylesheets="@mainFormDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane layoutX="21.0" layoutY="13.0" prefHeight="200.0" prefWidth="892.0" stylesheets="@mainFormDesign.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                 <styleClass>
+                                    <String fx:value="white-background" />
+                                    <String fx:value="radius" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <ScrollPane layoutX="149.0" layoutY="-29.0" prefHeight="141.0" prefWidth="891.5" styleClass="transparent" stylesheets="@mainFormDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <content>
+                                          <AnchorPane prefHeight="183.0" prefWidth="1100.0">
+                                             <children>
+                                                <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="163.0" prefWidth="265.0" styleClass="nav-form" AnchorPane.bottomAnchor="6.0" AnchorPane.topAnchor="14.0">
+                                                   <children>
+                                                      <ImageView fitHeight="45.0" fitWidth="44.0" layoutX="104.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@Images/icons8-users-90.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Label layoutX="62.0" layoutY="82.0" text="Number of Customers" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="dashboard_NC1" alignment="CENTER" layoutX="70.0" layoutY="118.0" prefHeight="23.0" prefWidth="113.0" text="0" textAlignment="CENTER" textFill="WHITE">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="1.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </AnchorPane>
+                                                <AnchorPane layoutX="302.0" layoutY="14.0" prefHeight="158.0" prefWidth="265.0" styleClass="nav-form" AnchorPane.bottomAnchor="6.0" AnchorPane.topAnchor="14.0">
+                                                   <children>
+                                                      <ImageView fitHeight="45.0" fitWidth="44.0" layoutX="104.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@Images/icons8-dollar-100.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Label layoutX="81.0" layoutY="82.0" text="Today's Income" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="dashboard_TI1" alignment="CENTER" layoutX="70.0" layoutY="118.0" prefHeight="23.0" prefWidth="113.0" text="0 LKR" textAlignment="CENTER" textFill="WHITE">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="1.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </AnchorPane>
+                                                <AnchorPane layoutX="587.0" layoutY="14.0" prefHeight="158.0" prefWidth="265.0" styleClass="nav-form" AnchorPane.bottomAnchor="6.0" AnchorPane.topAnchor="14.0">
+                                                   <children>
+                                                      <ImageView fitHeight="45.0" fitWidth="44.0" layoutX="104.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@Images/icons8-dollarbag-100.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Label layoutX="91.0" layoutY="84.0" text="Total Income" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="dashboard_TotalI1" alignment="CENTER" layoutX="70.0" layoutY="118.0" prefHeight="23.0" prefWidth="113.0" text="0 LKR" textAlignment="CENTER" textFill="WHITE">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="1.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </AnchorPane>
+                                                <AnchorPane layoutX="870.0" layoutY="14.0" prefHeight="158.0" prefWidth="265.0" styleClass="nav-form" AnchorPane.bottomAnchor="6.0" AnchorPane.topAnchor="14.0">
+                                                   <children>
+                                                      <ImageView fitHeight="45.0" fitWidth="44.0" layoutX="111.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@Images/icons8-cart-96.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Label layoutX="86.0" layoutY="87.0" text="Number of Sales" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="dashboard_NSP1" alignment="CENTER" layoutX="70.0" layoutY="118.0" prefHeight="23.0" prefWidth="113.0" text="0" textAlignment="CENTER" textFill="WHITE">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="1.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </AnchorPane>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="12.0" layoutY="223.0" prefHeight="367.0" prefWidth="892.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="223.0">
+                                 <styleClass>
+                                    <String fx:value="white-background" />
+                                    <String fx:value="radius" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <AnchorPane layoutX="13.0" layoutY="12.0" prefHeight="322.0" prefWidth="422.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="461.0" AnchorPane.topAnchor="10.0">
+                                       <styleClass>
+                                          <String fx:value="white-background" />
+                                          <String fx:value="radius" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                       <children>
+                                          <StackPane fx:id="dayIncomeForm" prefHeight="150.0" prefWidth="421.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                                   <children>
+                                                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                                                         <children>
+                                                            <Button fx:id="addTransactionBtn" mnemonicParsing="false" onAction="#showAddTransactionModal" prefHeight="30.0" prefWidth="200.0" text="Manage Transaction" />
+                                                         </children>
+                                                      </HBox>
+                                                      <AreaChart fx:id="dashboard_incomeChart1" prefHeight="307.0" prefWidth="421.0" title="Day Income Chart">
+                                                         <xAxis>
+                                                            <CategoryAxis side="BOTTOM" />
+                                                         </xAxis>
+                                                         <yAxis>
+                                                            <NumberAxis side="LEFT" />
+                                                         </yAxis>
+                                                      </AreaChart>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="449.0" layoutY="8.0" prefHeight="317.0" prefWidth="444.0" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                       <styleClass>
+                                          <String fx:value="white-background" />
+                                          <String fx:value="radius" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                       <children>
+                                          <StackPane fx:id="transactionModal" prefHeight="308.0" prefWidth="409.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="205.0" text="Manage Transaction" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <GridPane prefHeight="190.0" prefWidth="424.0">
+                                                        <columnConstraints>
+                                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="199.10964965820312" minWidth="10.0" prefWidth="141.70468139648438" />
+                                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.53509521484375" minWidth="10.0" prefWidth="247.79531860351562" />
+                                                        </columnConstraints>
+                                                        <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                        </rowConstraints>
+                                                         <children>
+                                                            <Label text="Transaction ID" GridPane.rowIndex="1">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label text="Pick a Date" GridPane.rowIndex="2">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label text="Amount " GridPane.rowIndex="3">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="transactionID" prefHeight="30.0" prefWidth="200.0" styleClass="textfield" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                            <DatePicker fx:id="transactionDatePicker" prefHeight="30.0" prefWidth="200.0" styleClass="textfield" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                            <TextField fx:id="transactionAmountField" prefHeight="30.0" prefWidth="200.0" styleClass="textfield" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                            <Label text="Customer ID" GridPane.rowIndex="4">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <ComboBox fx:id="transactionCustomerCombo" prefHeight="30.0" prefWidth="200.0" styleClass="textfield" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                            <Label layoutX="10.0" layoutY="57.0" text="SelectTransaction ">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <ComboBox fx:id="transactionSelectionCombo" layoutX="183.0" layoutY="166.0" prefHeight="30.0" prefWidth="200.0" styleClass="textfield" GridPane.columnIndex="1" />
+                                                         </children>
+                                                      </GridPane>
+                                                      <HBox alignment="CENTER" prefHeight="44.0" prefWidth="424.0" spacing="10.0">
+                                                         <children>
+                                                            <Button fx:id="addNewTransactionBtn" mnemonicParsing="false" onAction="#handleAddTransaction" text="ADD" />
+                                                            <Button fx:id="updateTransactionBtn" mnemonicParsing="false" onAction="#handleUpdateTransaction" text="UPDATE" />
+                                                            <Button fx:id="deleteTransactionBtn" mnemonicParsing="false" onAction="#handleDeleteTransaction" text="DELETE" />
+                                                            <Button fx:id="cancelTransactionBtn" mnemonicParsing="false" onAction="#handleCancelTransaction" text="CANCEL" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                   <StackPane.margin>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </StackPane.margin>
+                                                   <padding>
+                                                      <Insets bottom="20.0" />
+                                                   </padding>
+                                                </VBox>
+                                             </children>
+                                          </StackPane>
+                                          <StackPane fx:id="customerChartForm" layoutY="100.0" prefHeight="217.0" prefWidth="444.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                   <children>
+                                                      <BarChart fx:id="dashboard_CustomerChart1" maxHeight="300.0" maxWidth="400.0" prefHeight="283.0" prefWidth="400.0" title="Customer Chart">
+                                                         <xAxis>
+                                                            <CategoryAxis side="BOTTOM" />
+                                                         </xAxis>
+                                                         <yAxis>
+                                                            <NumberAxis side="LEFT" />
+                                                         </yAxis>
+                                                         <padding>
+                                                            <Insets top="10.0" />
+                                                         </padding>
+                                                      </BarChart>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <Button fx:id="dashboardPrintBtn" layoutX="364.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleDashboardPrint" prefHeight="30.0" prefWidth="150.0" text="Print Data" AnchorPane.bottomAnchor="5.0" />
+                                 </children>
+                                 <stylesheets>
+                                    <URL value="@mainFormDesign.css" />
+                                    <URL value="@style.css" />
+                                 </stylesheets>
+                              </AnchorPane>
+                              <Separator layoutX="10.0" layoutY="216.0" prefHeight="5.0" prefWidth="859.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="216.0" />
+                           </children>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
                </center>

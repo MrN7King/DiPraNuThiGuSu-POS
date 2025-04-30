@@ -20,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class cardProductController implements Initializable {
 
+    private MainFormController mainFormController;
     @FXML
     private AnchorPane card_form;
 
@@ -54,6 +55,10 @@ public class cardProductController implements Initializable {
 
     private Alert alert;
 
+    public void setMainFormController(MainFormController controller) {
+        this.mainFormController = controller;
+    }
+
     public void setData(ProductData prodData) {
         this.prodData = prodData;
 
@@ -80,21 +85,22 @@ public class cardProductController implements Initializable {
     private double pr;
 
     public void addBtn() {
+        // Remove this line - it's wrong!
+        // MainFormController mForm = new MainFormController();
 
-        MainFormController mForm = new MainFormController();
-        mForm.customerID();
+        if (mainFormController != null) {
+            mainFormController.customerID();
+        }
 
         qty = prod_spinner.getValue();
         String check = "";
-        String checkAvailable = "SELECT status FROM product WHERE prod_id = '"
-                + prodID + "'";
+        String checkAvailable = "SELECT status FROM product WHERE prod_id = '" + prodID + "'";
 
         connect = Database.connectDB();
-//
+
         try {
             int checkStck = 0;
-            String checkStock = "SELECT stock FROM product WHERE prod_id = '"
-                    + prodID + "'";
+            String checkStock = "SELECT stock FROM product WHERE prod_id = '" + prodID + "'";
 
             prepare = connect.prepareStatement(checkStock);
             result = prepare.executeQuery();
@@ -103,8 +109,7 @@ public class cardProductController implements Initializable {
                 checkStck = result.getInt("stock");
             }
 
-            if(checkStck == 0){
-
+            if(checkStck == 0) {
                 String updateStock = "UPDATE product SET prod_name = '"
                         + prod_name.getText() + "', type = '"
                         + type + "', stock = 0, price = " + pr
@@ -114,7 +119,6 @@ public class cardProductController implements Initializable {
                         + prodID + "'";
                 prepare = connect.prepareStatement(updateStock);
                 prepare.executeUpdate();
-
             }
 
             prepare = connect.prepareStatement(checkAvailable);
@@ -131,7 +135,6 @@ public class cardProductController implements Initializable {
                 alert.setContentText("Something Wrong :3");
                 alert.showAndWait();
             } else {
-
                 if (checkStck < qty) {
                     alert = new Alert(AlertType.ERROR);
                     alert.setTitle("Error Message");
@@ -165,11 +168,6 @@ public class cardProductController implements Initializable {
 
                     int upStock = checkStck - qty;
 
-
-
-                    System.out.println("Date: " + prod_date);
-                    System.out.println("Image: " + prod_image);
-
                     String updateStock = "UPDATE product SET prod_name = '"
                             + prod_name.getText() + "', type = '"
                             + type + "', stock = " + upStock + ", price = " + pr
@@ -188,13 +186,17 @@ public class cardProductController implements Initializable {
                     alert.setContentText("Successfully Added!");
                     alert.showAndWait();
 
-                    mForm.menuGetTotal();
+                    // Use the passed controller reference
+                    if (mainFormController != null) {
+                        mainFormController.menuGetTotal();
+                        mainFormController.menuShowOrderData();
+                        mainFormController.menuDisplayTotal();
+                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
