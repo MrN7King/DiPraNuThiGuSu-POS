@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c73a7ae9-ef96-4703-847c-1234fee317ad" name="Changes" comment="RBAC implemented">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/DashboardPDFGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/PDFGeneratorUserManagement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/Receipt.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/ReceiptGenerator.java" afterDir="false" />
+    <list default="true" id="c73a7ae9-ef96-4703-847c-1234fee317ad" name="Changes" comment="Admin Dashboard is completed">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/ExpenseData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/ExpensePDFGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/cafepos/MainFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/MainFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/cafepos/cardProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/cardProductController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/mainForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/mainForm.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -158,7 +153,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743399770239</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Admin Dashboard is completed">
+      <option name="closed" value="true" />
+      <created>1746011643193</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1746011643193</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -192,7 +195,8 @@
     <MESSAGE value="inventory completed" />
     <MESSAGE value="Pos done but without uber" />
     <MESSAGE value="Pos complete 31 march" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pos complete 31 march" />
+    <MESSAGE value="Admin Dashboard is completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Admin Dashboard is completed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
