@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -37,6 +38,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -44,7 +46,7 @@ import java.util.List;
 
 public class MainFormController implements Initializable{
 
-    // Admin Form Components
+    // Admin Form Components - Nuha
     @FXML private TableView<EmployeeData> admin_tableView;
     @FXML private TableColumn<EmployeeData, Integer> admin_col_id;
     @FXML private TableColumn<EmployeeData, String> admin_col_username;
@@ -62,9 +64,10 @@ public class MainFormController implements Initializable{
     private int adminSelectedId = -1;
     @FXML private AnchorPane admin_form;
     @FXML private Button admin_btn;
+    @FXML private Button logout_btn;
 
 
-    // Dashboard
+    // Dashboard - thivaker
     @FXML  private Label dashboard_NC;
     @FXML  private Label dashboard_NSP;
     @FXML  private Label dashboard_TI;
@@ -98,137 +101,75 @@ public class MainFormController implements Initializable{
 
 
 
-    // customers
-    @FXML private Button customers_btn;
-    @FXML private TableView<customersData> customers_tableView;
-    @FXML private TableColumn<customersData, String> customers_col_cashier;
-    @FXML private TableColumn<customersData, String> customers_col_customerID;
-    @FXML private TableColumn<customersData, String> customers_col_date;
-    @FXML private TableColumn<customersData, String> customers_col_total;
-    @FXML private AnchorPane customers_form;
+    // expense -- sumry
+    @FXML private AnchorPane expenseTracking_form;
+    @FXML private Button expenses_btn;
+    @FXML private TableView<ExpenseData> expenseTableView;
+    @FXML private TableColumn<ExpenseData, String> Expenses_col_expenseID;
+    @FXML private TableColumn<ExpenseData, String> Expenses_col_type;
+    @FXML private TableColumn<ExpenseData, String> Expenses_col_description;
+    @FXML private TableColumn<ExpenseData, Double> Expenses_col_amount;
+    @FXML private TableColumn<ExpenseData, String> Expenses_col_date;
+    @FXML private TableColumn<ExpenseData, String> Expenses_col_recordedBy;
+    @FXML private TextField expenseID_txtField;
+    @FXML private ComboBox<String> expenseType_combo;
+    @FXML private TextArea expenseDescription_txtField;
+    @FXML private TextField expenseAmount_txtField;
+    @FXML private TextField expenseRecordedBy_txtField;
+    @FXML private Button expenseAddBtn;
+    @FXML private Button expenseUpdateBtn;
+    @FXML private Button expenseDeleteBtn;
+    @FXML private Button expensePrintBtn;
+
+    //Inventory -- Pranal
+    @FXML private Button inventory_addbtn;
+    @FXML private Button inventory_btn;
+    @FXML private Button inventory_clearbtn;
+    @FXML private TableView<ProductData> inventory_tableView;
+    @FXML private TableColumn<ProductData, String> inventory_col_productID;
+    @FXML private TableColumn<ProductData, String> inventory_col_productName;
+    @FXML private TableColumn<ProductData, String> inventory_col_type;
+    @FXML private TableColumn<ProductData, String> inventory_col_stock;
+    @FXML private TableColumn<ProductData, String> inventory_col_price;
+    @FXML private TableColumn<ProductData, String> inventory_col_status;
+    @FXML private TableColumn<ProductData, String> inventory_col_date;
+    @FXML private Button inventory_deletebtn;
+    @FXML private AnchorPane inventory_form;
+    @FXML private ImageView inventory_imageView;
+    @FXML private Button inventory_importbtn;
+    @FXML private TextField inventory_price;
+    @FXML private TextField inventory_productID;
+    @FXML private TextField inventory_productName;
+    @FXML private ComboBox<?> inventory_status;
+    @FXML private TextField inventory_stock;
+    @FXML private ComboBox<?> inventory_type;
+    @FXML private Button inventory_updatebtn;
 
 
-    @FXML
-    private Button inventory_addbtn;
+    //menu -- Dilaksan
+    @FXML private AnchorPane main_form;
+    @FXML private Button menu_btn;
+    @FXML private Label username;
+    @FXML private TextField menu_amount;
+    @FXML private Label menu_change;
+    @FXML private TableView<ProductData> menu_tableView;
+    @FXML private TableColumn<ProductData, String> menu_col_price;
+    @FXML private TableColumn<ProductData, String> menu_col_productName;
+    @FXML private TableColumn<ProductData, String> menu_col_quantity;
+    @FXML private AnchorPane menu_form;
+    @FXML private GridPane menu_gridPane;
+    @FXML private Button menu_payBtn;
+    @FXML private Button menu_receiptBtn;
+    @FXML private Button menu_removeBtn;
+    @FXML private ScrollPane menu_scrollPane;
+    @FXML private Label menu_total;
+    @FXML private TextField menuProductNametxtFiled;
+    @FXML private TextField menuPricetxtField;
+    @FXML private Spinner<Integer> menuQuantitySpinner;
+    @FXML private Button menu_updateBtn;
 
-    @FXML
-    private Button inventory_btn;
-
-    @FXML
-    private Button inventory_clearbtn;
-
-    @FXML
-    private TableView<ProductData> inventory_tableView;
-
-    @FXML
-    private TableColumn<ProductData, String> inventory_col_productID;
-
-    @FXML
-    private TableColumn<ProductData, String> inventory_col_productName;
-
-    @FXML
-    private TableColumn<ProductData, String> inventory_col_type;
-
-    @FXML
-    private TableColumn<ProductData, String> inventory_col_stock;
-
-    @FXML
-    private TableColumn<ProductData, String> inventory_col_price;
-
-    @FXML
-    private TableColumn<ProductData, String> inventory_col_status;
-
-    @FXML
-    private TableColumn<ProductData, String> inventory_col_date;
-
-    @FXML
-    private Button inventory_deletebtn;
-
-    @FXML
-    private AnchorPane inventory_form;
-
-    @FXML
-    private ImageView inventory_imageView;
-
-    @FXML
-    private Button inventory_importbtn;
-
-    @FXML
-    private TextField inventory_price;
-
-    @FXML
-    private TextField inventory_productID;
-
-    @FXML
-    private TextField inventory_productName;
-
-    @FXML
-    private ComboBox<?> inventory_status;
-
-    @FXML
-    private TextField inventory_stock;
-
-
-    @FXML
-    private ComboBox<?> inventory_type;
-
-    @FXML
-    private Button inventory_updatebtn;
-
-    @FXML
-    private Button logout_btn;
-
-    @FXML
-    private AnchorPane main_form;
-
-    @FXML
-    private Button menu_btn;
-
-    @FXML
-    private Button uber_btn;
-
-    @FXML
-    private Label username;
-
-    @FXML
-    private TextField menu_amount;
-
-    @FXML
-    private Label menu_change;
-
-    @FXML
-    private TableView<ProductData> menu_tableView;
-
-    @FXML
-    private TableColumn<ProductData, String> menu_col_price;
-
-    @FXML
-    private TableColumn<ProductData, String> menu_col_productName;
-
-    @FXML
-    private TableColumn<ProductData, String> menu_col_quantity;
-
-    @FXML
-    private AnchorPane menu_form;
-
-    @FXML
-    private GridPane menu_gridPane;
-
-    @FXML
-    private Button menu_payBtn;
-
-    @FXML
-    private Button menu_receiptBtn;
-
-    @FXML
-    private Button menu_removeBtn;
-
-    @FXML
-    private ScrollPane menu_scrollPane;
-
-    @FXML
-    private Label menu_total;
-
+    //uber -- Guru
+    @FXML private Button uber_btn;
 
 
 
@@ -244,6 +185,7 @@ public class MainFormController implements Initializable{
     private ObservableList<ProductData> cardListData = FXCollections.observableArrayList();
 
 
+    // ----------------------------------------------------------------------
     //dashboard thivaker
     public void dashboardDisplayNC(Label ncLabel) {
         String sql = "SELECT COUNT(DISTINCT customer_id) FROM receipt";
@@ -331,8 +273,6 @@ public class MainFormController implements Initializable{
         }
     }
 
-
-
     public void dashboardIncomeChart(AreaChart<String, Number> chart) {
         if (chart == null) return;
 
@@ -381,7 +321,6 @@ public class MainFormController implements Initializable{
             }
         }
     }
-
 
     public void dashboardCustomerChart(BarChart<String, Number> chart) {
         chart.getData().clear();
@@ -521,7 +460,6 @@ public class MainFormController implements Initializable{
             closeResources();
         }
     }
-
 
     public void showAddTransactionModal() {
         // Clear selection first
@@ -782,7 +720,6 @@ public class MainFormController implements Initializable{
         dashboardCustomerChart(dashboard_CustomerChart);
     }
 
-
     // Find receipt in database
     private Receipt findReceiptByDateAndAmount(String dateStr, double amount) {
         try {
@@ -865,6 +802,7 @@ public class MainFormController implements Initializable{
     }
 
 
+    // ----------------------------------------------------------------------
     // inventory Pranal
     //Add btn
     public void inventoryAddBtn() {
@@ -946,7 +884,6 @@ public class MainFormController implements Initializable{
       }
     }
 
-
     public void inventoryUpdateBtn() {
 
         if (inventory_productID.getText().isEmpty()
@@ -1015,7 +952,6 @@ public class MainFormController implements Initializable{
         }
     }
 
-
     public void inventoryDeleteBtn() {
         if (data.id == 0) {
 
@@ -1062,7 +998,6 @@ public class MainFormController implements Initializable{
         }
     }
 
-
     public void inventoryClearBtn() {
 
         inventory_productID.setText("");
@@ -1077,9 +1012,8 @@ public class MainFormController implements Initializable{
 
     }
 
-
     // BEHAVIOR FOR IMPORT BTN
-      public void inventoryImportBtn(){
+    public void inventoryImportBtn(){
         FileChooser openFile = new FileChooser();
         openFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
 
@@ -1091,6 +1025,28 @@ public class MainFormController implements Initializable{
             image = new Image(file.toURI().toString(), 180, 180, false, true);
 
             inventory_imageView.setImage(image);
+        }
+    }
+
+    public void inventoryPrintBtn() {
+        try {
+            // Generate the PDF report
+            InventoryPDFGenerator.generateInventoryReport(inventoryListData, data.username);
+
+            // Show success message
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Inventory report generated successfully!");
+            alert.showAndWait();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to generate report: " + e.getMessage());
+            alert.showAndWait();
         }
     }
 
@@ -1149,7 +1105,6 @@ public class MainFormController implements Initializable{
 
     }
 
-
     public void inventorySelectData() {
 
         ProductData prodData = inventory_tableView.getSelectionModel().getSelectedItem();
@@ -1173,7 +1128,6 @@ public class MainFormController implements Initializable{
         image = new Image(path, 180, 180, false, true);
         inventory_imageView.setImage(image);
     }
-
 
     //to display type list in dropmenu
     private String[] typeList = {"Meals", "Drinks"};
@@ -1204,6 +1158,8 @@ public class MainFormController implements Initializable{
     }
 
 
+
+    // ----------------------------------------------------------------------
     // Menu Dilaksan
     public ObservableList<ProductData> menuGetData() {
 
@@ -1237,7 +1193,6 @@ public class MainFormController implements Initializable{
 
         return listData;
     }
-
 
     public void menuDisplayCard() {
 
@@ -1276,8 +1231,6 @@ public class MainFormController implements Initializable{
         }
     }
 
-
-
     public ObservableList<ProductData> menuGetOrder() {
         customerID();
         ObservableList<ProductData> listData = FXCollections.observableArrayList();
@@ -1312,7 +1265,6 @@ public class MainFormController implements Initializable{
         return listData;
     }
 
-
     private int getid;
 
     public void menuSelectOrder() {
@@ -1325,8 +1277,15 @@ public class MainFormController implements Initializable{
         // TO GET THE ID PER ORDER
         getid = prod.getId();
 
-    }
+        // Populate the fields with selected product data
+        menuProductNametxtFiled.setText(prod.getProductName());
+        menuPricetxtField.setText(String.format("LKR %.2f", prod.getPrice()));
 
+        // Set spinner value to current quantity
+        SpinnerValueFactory<Integer> valueFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, prod.getQuantity());
+        menuQuantitySpinner.setValueFactory(valueFactory);
+    }
 
     private double totalP;
     public void menuGetTotal() {
@@ -1350,12 +1309,10 @@ public class MainFormController implements Initializable{
 
     }
 
-
     public void menuDisplayTotal() {
         menuGetTotal();
         menu_total.setText("LKR " + totalP);
     }
-
 
     private ObservableList<ProductData> menuOrderListData;
     public void menuShowOrderData() {
@@ -1389,8 +1346,6 @@ public class MainFormController implements Initializable{
             }
         }
     }
-
-
 
     public void menuPayBtn() {
 
@@ -1448,6 +1403,8 @@ public class MainFormController implements Initializable{
                         alert.setContentText("Successful.");
                         alert.showAndWait();
 
+
+                        // Then reset the form
                         menuShowOrderData();
 
 
@@ -1466,8 +1423,6 @@ public class MainFormController implements Initializable{
         }
 
     }
-
-
 
     public void menuRemoveBtn() {
 
@@ -1499,7 +1454,6 @@ public class MainFormController implements Initializable{
 
         }
     }
-
 
     public void menuReceiptBtn() {
         if (totalP == 0 || menu_amount.getText().isEmpty()) {
@@ -1551,17 +1505,119 @@ public class MainFormController implements Initializable{
         }
     }
 
+    //new method to handle order updates
+    public void menuUpdateOrder() {
+        if (getid == 0) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select an order to update");
+            alert.showAndWait();
+            return;
+        }
+
+        int newQuantity = menuQuantitySpinner.getValue();
+        if (newQuantity <= 0) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Quantity must be at least 1");
+            alert.showAndWait();
+            return;
+        }
+
+        String updateData = "UPDATE customer SET quantity = ?, price = (SELECT price FROM product WHERE prod_id = (SELECT prod_id FROM customer WHERE id = ?)) * ? WHERE id = ?";
+        connect = Database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(updateData);
+            prepare.setInt(1, newQuantity);
+            prepare.setInt(2, getid);
+            prepare.setInt(3, newQuantity);
+            prepare.setInt(4, getid);
+
+            int affectedRows = prepare.executeUpdate();
+
+            if (affectedRows > 0) {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Order updated successfully!");
+                alert.showAndWait();
+
+                // Refresh the order list and totals
+                menuShowOrderData();
+                menuDisplayTotal();
+            } else {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to update order");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void confirmRestart() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm New Order");
+        alert.setHeaderText("Start new order?");
+        alert.setContentText("This will clear all current order items.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            menuRestart();
+        }
+    }
 
     public void menuRestart() {
+        // First, delete all items from the customer table for this order
+        String deleteOrderItems = "DELETE FROM customer WHERE customer_id = " + cID;
+        connect = Database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(deleteOrderItems);
+            prepare.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Reset calculations
         totalP = 0;
         change = 0;
         amount = 0;
+
+        // Reset UI displays
         menu_total.setText("LKR0.0");
         menu_amount.setText("");
         menu_change.setText("LKR0.0");
+
+        // Clear the order update section
+        menuProductNametxtFiled.clear();
+        menuPricetxtField.clear();
+
+        // Reset spinner to default value (1)
+        SpinnerValueFactory<Integer> valueFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
+        menuQuantitySpinner.setValueFactory(valueFactory);
+
+        // Clear and refresh the table view
+        if (menuOrderListData != null) {
+            menuOrderListData.clear();
+        }
+        menu_tableView.getItems().clear();
+        menu_tableView.refresh();
+
+        // Generate a new customer ID for the new order
+        customerID(); // This should generate a new cID
     }
 
 
+
+
+    // ----------------------------------------------------------------------
     // sumry part below
     private int cID;
     public void customerID() {
@@ -1597,28 +1653,111 @@ public class MainFormController implements Initializable{
             e.printStackTrace();
         }
     }
+    private ObservableList<ExpenseData> expenseList = FXCollections.observableArrayList();
 
+    public void expenseAdd() {
+        String sql = "INSERT INTO expenses (expense_id, expense_type, description, amount, date, recorded_by) " +
+                "VALUES(?,?,?,?,?,?)";
 
-    public ObservableList<customersData> customersDataList() {
+        connect = Database.connectDB();
+        try {
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, expenseID_txtField.getText());
+            prepare.setString(2, expenseType_combo.getValue());
+            prepare.setString(3, expenseDescription_txtField.getText());
+            prepare.setDouble(4, Double.parseDouble(expenseAmount_txtField.getText()));
+            prepare.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+            prepare.setString(6, expenseRecordedBy_txtField.getText());
 
-        ObservableList<customersData> listData = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM receipt";
+            prepare.executeUpdate();
+
+            alertMessage("Successfully Added!");
+
+            expenseShowListData();
+            expenseClear();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void expenseUpdate() {
+        String sql = "UPDATE expenses SET expense_type = ?, description = ?, amount = ?, recorded_by = ? " +
+                "WHERE expense_id = ?";
+
         connect = Database.connectDB();
 
         try {
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, expenseType_combo.getValue());
+            prepare.setString(2, expenseDescription_txtField.getText());
+            prepare.setDouble(3, Double.parseDouble(expenseAmount_txtField.getText()));
+            prepare.setString(4, expenseRecordedBy_txtField.getText());
+            prepare.setString(5, expenseID_txtField.getText());
 
+            prepare.executeUpdate();
+
+            alertMessage("Successfully Updated!");
+
+            expenseShowListData();
+            expenseClear();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void expenseDelete() {
+        String sql = "DELETE FROM expenses WHERE expense_id = ?";
+
+        connect = Database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, expenseID_txtField.getText());
+
+            prepare.executeUpdate();
+
+            alertMessage("Successfully Deleted!");
+
+            expenseShowListData();
+            expenseClear();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void expenseClear() {
+        expenseID_txtField.setText("");
+        expenseType_combo.getSelectionModel().clearSelection();
+        expenseDescription_txtField.setText("");
+        expenseAmount_txtField.setText("");
+        expenseRecordedBy_txtField.setText("");
+    }
+
+    public ObservableList<ExpenseData> expenseListData() {
+        ObservableList<ExpenseData> listData = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM expenses";
+
+        connect = Database.connectDB();
+
+        try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
-            customersData cData;
+
+            ExpenseData expense;
 
             while (result.next()) {
-                cData = new customersData(result.getInt("id"),
-                        result.getInt("customer_id"),
-                        result.getDouble("total"),
+                expense = new ExpenseData(result.getInt("id"),
+                        result.getString("expense_id"),
+                        result.getString("expense_type"),
+                        result.getString("description"),
+                        result.getDouble("amount"),
                         result.getDate("date"),
-                        result.getString("em_username"));
+                        result.getString("recorded_by"));
 
-                listData.add(cData);
+                listData.add(expense);
             }
 
         } catch (Exception e) {
@@ -1627,140 +1766,102 @@ public class MainFormController implements Initializable{
         return listData;
     }
 
+    public void expenseShowListData() {
+        expenseList = expenseListData();
 
+        Expenses_col_expenseID.setCellValueFactory(new PropertyValueFactory<>("expenseId"));
+        Expenses_col_type.setCellValueFactory(new PropertyValueFactory<>("expenseType"));
+        Expenses_col_description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        Expenses_col_amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        Expenses_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        Expenses_col_recordedBy.setCellValueFactory(new PropertyValueFactory<>("recordedBy"));
 
-    private ObservableList<customersData> customersListData;
-
-    public void customersShowData() {
-        customersListData = customersDataList();
-
-        customers_col_customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        customers_col_total.setCellValueFactory(new PropertyValueFactory<>("total"));
-        customers_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
-        customers_col_cashier.setCellValueFactory(new PropertyValueFactory<>("emUsername"));
-
-        customers_tableView.setItems(customersListData);
+        expenseTableView.setItems(expenseList);
     }
 
+    public void expenseSelect() {
+        ExpenseData expense = expenseTableView.getSelectionModel().getSelectedItem();
+        int num = expenseTableView.getSelectionModel().getSelectedIndex();
 
-    public void switchForm(ActionEvent event) {
-        if (event.getSource() == dashboard_btn) {
-            if ("admin".equals(data.role)) {
-                switchToAdminDashboard();
-            } else {
-                switchToCashierDashboard();
-            }
-            refreshBothDashboards();
+        if ((num - 1) < -1) {
+            return;
         }
-        else if (event.getSource() == admin_btn && "admin".equals(data.role)) {
-            // Admin management form
-            dashboard_form.setVisible(false);
-            dashboardAdmin_form.setVisible(false);
-            inventory_form.setVisible(false);
-            menu_form.setVisible(false);
-            customers_form.setVisible(false);
-            admin_form.setVisible(true);
 
-            adminRefreshData();
-        }
-        else if (event.getSource() == inventory_btn) {
-            dashboard_form.setVisible(false);
-            dashboardAdmin_form.setVisible(false);
-            inventory_form.setVisible(true);
-            menu_form.setVisible(false);
-            customers_form.setVisible(false);
-            admin_form.setVisible(false);
-
-            inventoryTypeList();
-            inventoryStatusList();
-            inventoryShowData();
-        }
-        else if (event.getSource() == menu_btn) {
-            dashboard_form.setVisible(false);
-            dashboardAdmin_form.setVisible(false);
-            inventory_form.setVisible(false);
-            menu_form.setVisible(true);
-            customers_form.setVisible(false);
-            admin_form.setVisible(false);
-
-            menuDisplayCard();
-            menuDisplayTotal();
-            menuShowOrderData();
-        }
-        else if (event.getSource() == customers_btn) {
-            dashboard_form.setVisible(false);
-            dashboardAdmin_form.setVisible(false);
-            inventory_form.setVisible(false);
-            menu_form.setVisible(false);
-            customers_form.setVisible(true);
-            admin_form.setVisible(false);
-
-            customersShowData();
-        }
-        else if (event.getSource() == uber_btn) {
-            // Open Uber.fxml
-            try {
-                // Load Uber.fxml
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("Uber.fxml"));
-                Parent root = loader.load();
-
-                // Get the current stage
-                Stage stage = (Stage) uber_btn.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        expenseID_txtField.setText(expense.getExpenseId());
+        expenseType_combo.setValue(expense.getExpenseType());
+        expenseDescription_txtField.setText(expense.getDescription());
+        expenseAmount_txtField.setText(String.valueOf(expense.getAmount()));
+        expenseRecordedBy_txtField.setText(expense.getRecordedBy());
     }
 
-    public void logout() {
+    public void expenseTypeList() {
+        List<String> typeList = new ArrayList<>();
 
+        typeList.add("Rent");
+        typeList.add("Salaries");
+        typeList.add("Supplies");
+        typeList.add("Utilities");
+        typeList.add("Maintenance");
+        typeList.add("Other");
+
+        ObservableList<String> listData = FXCollections.observableArrayList(typeList);
+        expenseType_combo.setItems(listData);
+    }
+
+    @FXML
+    private void handleExpensePrintButton() {
         try {
+            // Create a file chooser
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Expense Report");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
 
-            alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Error Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to logout?");
-            Optional<ButtonType> option = alert.showAndWait();
+            // Use java.util.Date for filename
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            fileChooser.setInitialFileName("ExpenseReport_" + dateFormat.format(new java.util.Date()) + ".pdf");
 
-            if (option.get().equals(ButtonType.OK)) {
+            // Show save dialog
+            File file = fileChooser.showSaveDialog(expensePrintBtn.getScene().getWindow());
 
-                // TO HIDE MAIN FORM
-                logout_btn.getScene().getWindow().hide();
+            if (file != null) {
+                // Generate the PDF
+                ExpensePDFGenerator.generateExpenseReport(expenseList, file.getAbsolutePath());
 
-                // LINK YOUR LOGIN FORM AND SHOW IT
-                Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+                // Show success message
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("Expense report saved successfully to:\n" + file.getAbsolutePath());
+                alert.showAndWait();
 
-                Stage stage = new Stage();
-                Scene scene = new Scene(root);
-
-                stage.setTitle("Cafe Shop Management System");
-
-                stage.setScene(scene);
-                stage.show();
-
+                // Optionally open the PDF
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(file);
+                }
             }
-
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to generate PDF: " + e.getMessage());
+            alert.showAndWait();
         }
-
     }
 
-    public void displayUsername() {
-
-        String user = data.username;
-        user = user.substring(0, 1).toUpperCase() + user.substring(1);
-
-        username.setText(user);
-
+    public void alertMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Message");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 
-//    ADMIN Section below
 
+    // ----------------------------------------------------------------------
+    // Done by Nuha
+    // ADMIN Section below
     private void setupAdminSection() {
         // Initialize combo boxes
         admin_role.setItems(FXCollections.observableArrayList("admin", "cashier"));
@@ -2028,7 +2129,7 @@ public class MainFormController implements Initializable{
 
         inventory_form.setVisible(false);
         menu_form.setVisible(false);
-        customers_form.setVisible(false);
+        expenseTracking_form.setVisible(false);
         admin_form.setVisible(false);
     }
 
@@ -2038,10 +2139,110 @@ public class MainFormController implements Initializable{
 
         inventory_form.setVisible(false);
         menu_form.setVisible(false);
-        customers_form.setVisible(false);
+        expenseTracking_form.setVisible(false);
         admin_form.setVisible(false);
     }
 
+
+    // ----------------------------------------------------------------------
+    // General Codes
+    public void switchForm(ActionEvent event) {
+        if (event.getSource() == dashboard_btn) {
+            if ("admin".equals(data.role)) {
+                switchToAdminDashboard();
+            } else {
+                switchToCashierDashboard();
+            }
+            refreshBothDashboards();
+        }
+        else if (event.getSource() == admin_btn && "admin".equals(data.role)) {
+            // Admin management form
+            dashboard_form.setVisible(false);
+            dashboardAdmin_form.setVisible(false);
+            inventory_form.setVisible(false);
+            menu_form.setVisible(false);
+            expenseTracking_form.setVisible(false);
+            admin_form.setVisible(true);
+
+            adminRefreshData();
+        }
+        else if (event.getSource() == inventory_btn) {
+            dashboard_form.setVisible(false);
+            dashboardAdmin_form.setVisible(false);
+            inventory_form.setVisible(true);
+            menu_form.setVisible(false);
+            expenseTracking_form.setVisible(false);
+            admin_form.setVisible(false);
+
+            inventoryTypeList();
+            inventoryStatusList();
+            inventoryShowData();
+        }
+        else if (event.getSource() == menu_btn) {
+            dashboard_form.setVisible(false);
+            dashboardAdmin_form.setVisible(false);
+            inventory_form.setVisible(false);
+            menu_form.setVisible(true);
+            expenseTracking_form.setVisible(false);
+            admin_form.setVisible(false);
+
+            menuDisplayCard();
+            menuDisplayTotal();
+            menuShowOrderData();
+        }
+        else if (event.getSource() == expenses_btn) {
+            dashboard_form.setVisible(false);
+            dashboardAdmin_form.setVisible(false);
+            inventory_form.setVisible(false);
+            menu_form.setVisible(false);
+            expenseTracking_form.setVisible(true);
+            admin_form.setVisible(false);
+
+        }
+    }
+
+    public void logout() {
+
+        try {
+
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to logout?");
+            Optional<ButtonType> option = alert.showAndWait();
+
+            if (option.get().equals(ButtonType.OK)) {
+
+                // TO HIDE MAIN FORM
+                logout_btn.getScene().getWindow().hide();
+
+                // LINK YOUR LOGIN FORM AND SHOW IT
+                Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+
+                stage.setTitle("Cafe Shop Management System");
+
+                stage.setScene(scene);
+                stage.show();
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void displayUsername() {
+
+        String user = data.username;
+        user = user.substring(0, 1).toUpperCase() + user.substring(1);
+
+        username.setText(user);
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -2058,7 +2259,16 @@ public class MainFormController implements Initializable{
         menuGetOrder();
         menuShowOrderData();
         menuDisplayTotal();
-        customersShowData();
+
+        expenseTypeList();
+        expenseShowListData();
+
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
+        menuQuantitySpinner.setValueFactory(valueFactory);
+
+        // Make product name and price fields non-editable
+        menuProductNametxtFiled.setEditable(false);
+        menuPricetxtField.setEditable(false);
 
         // Set up admin section if user is admin
         if ("admin".equals(data.role)) {
