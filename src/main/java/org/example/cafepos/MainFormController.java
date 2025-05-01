@@ -2199,6 +2199,21 @@ public class MainFormController implements Initializable{
             admin_form.setVisible(false);
 
         }
+        else if (event.getSource() == uber_btn) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Uber.fxml"));
+                Parent root = loader.load();
+
+                // Optional: If you want to replace the whole scene
+                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void logout() {
