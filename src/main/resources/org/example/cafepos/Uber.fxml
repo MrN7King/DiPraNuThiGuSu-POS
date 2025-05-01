@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="631.0" prefWidth="1166.0" stylesheets="@UberDesign.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cafepos.UberController">
+
+
+    <Label fx:id="statusLabel" layoutX="30.0" layoutY="47.0" text="WELCOME TO THE UBER EATS TRACKING SYSTEM" />
+
+
+    <HBox layoutX="20.0" layoutY="88.0" spacing="10">
+        <Button fx:id="chooseFileButton" onAction="#handleChooseFile" text="📁 Choose File" />
+        <Button fx:id="uploadButton" onAction="#handleUploadFile" text="Upload" />
+    </HBox>
+
+    <!-- Filters -->
+    <HBox layoutX="20" layoutY="100" spacing="10" />
+
+
+    <TableView fx:id="dataTable" layoutX="9.0" layoutY="148.0" prefHeight="329.0" prefWidth="1137.0">
+        <columns>
+            <TableColumn fx:id="idColumn" prefWidth="40.88887405395508" text="ID" />
+            <TableColumn fx:id="tripIdColumn" prefWidth="73.77779388427734" text="Trip ID" />
+            <TableColumn fx:id="requestTimeColumn" prefWidth="139.33338165283203" text="Request Time" />
+            <TableColumn fx:id="dropoffTimeColumn" prefWidth="175.99993896484375" text="Dropoff Time" />
+            <TableColumn fx:id="dropoffAddressColumn" prefWidth="167.33328247070312" text="Dropoff Address" />
+            <TableColumn fx:id="customerNameColumn" prefWidth="138.0001220703125" text="Customer Name" />
+            <TableColumn fx:id="transactionAmountColumn" prefWidth="108.666748046875" text="Amount" />
+            <TableColumn fx:id="commissionColumn" prefWidth="123.3333740234375" text="Commission" />
+            <TableColumn fx:id="paymentMethodColumn" prefWidth="165.99981689453125" text="Payment Method" />
+        </columns>
+    </TableView>
+
+
+    <HBox layoutX="10.0" layoutY="505.0" prefWidth="429.0" spacing="15">
+        <Button fx:id="addNewRecordButton" onAction="#handleAddNewRecord" text="➕ Add Record" />
+        <Button fx:id="deleteRecordButton" onAction="#handleDeleteRecord" text="🗑 Delete Record" />
+        <Button fx:id="exportButton" onAction="#handleExportData" text="📄 Export to PDF" />
+    </HBox>
+   <Button fx:id="backMenubtn" layoutX="977.0" layoutY="83.0" mnemonicParsing="false" onAction="#GoBack" prefHeight="39.0" prefWidth="148.0" text=" Back To Menu" />
+
+</AnchorPane>
