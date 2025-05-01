@@ -1028,6 +1028,28 @@ public class MainFormController implements Initializable{
         }
     }
 
+    public void inventoryPrintBtn() {
+        try {
+            // Generate the PDF report
+            InventoryPDFGenerator.generateInventoryReport(inventoryListData, data.username);
+
+            // Show success message
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Inventory report generated successfully!");
+            alert.showAndWait();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to generate report: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
     // MERGE ALL DATAS
     public ObservableList<ProductData> inventoryDataList() {
 
