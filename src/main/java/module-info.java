@@ -5,6 +5,8 @@ module org.example.cafepos {
     requires mysql.connector.j;
     requires org.apache.pdfbox;
     requires java.desktop;
+    requires org.apache.poi.poi;
+    requires org.apache.poi.ooxml;
 
 
     opens org.example.cafepos to javafx.fxml;

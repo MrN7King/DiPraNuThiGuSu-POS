@@ -1,0 +1,105 @@
+/* Background for the main pane */
+.anchor-pane {
+    -fx-background-color: #fcf6eb; /* soft cream */
+}
+
+/* Header label */
+.label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6D4C41; /* chocolate brown */
+}
+
+/* Buttons - consistent with nav-btn style */
+.button {
+    -fx-background-color: #fcf6eb;
+    -fx-text-fill: #000000;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-border-color: black; /* Updated to black */
+    -fx-border-width: 1px;
+}
+
+.button:hover {
+    -fx-background-color: #9A7560;
+    -fx-text-fill: white;
+}
+
+/* Back to menu button – styled separately for emphasis */
+#backMenubtn {
+    -fx-background-color: #e0b497;
+    -fx-text-fill: #000;
+}
+
+#backMenubtn:hover {
+    -fx-background-color: #6D4C41;
+    -fx-text-fill: white;
+}
+
+/* Table styling */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: black; /* Updated to black */
+    -fx-border-radius: 5px;
+    -fx-border-width: 1.5px;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1); /* Optional: subtle shadow */
+}
+
+/* Column headers styling */
+.table-view .column-header-background {
+    -fx-background-color: #6D4C41;
+    -fx-background-radius: 5px 5px 0 0;
+    -fx-border-color: transparent transparent black transparent; /* Updated to black */
+    -fx-border-width: 0 0 2px 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-pref-height: 50px; /* Increased height for better spacing */
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px; /* Optional: increase font size */
+    -fx-padding: 0 8px; /* Padding around the text */
+}
+
+/* Add borders between each column (not the header row) */
+.table-view .table-cell {
+    -fx-border-color: black; /* Add black border to each column cell */
+    -fx-border-width: 0 1px 0 0; /* Divider between columns */
+}
+
+.table-view .table-cell:last-child {
+    -fx-border-right-width: 0; /* Remove border from the last column */
+}
+
+/* Optional: filter row for table columns, if needed */
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-size: 15px;
+}
+
+/* Style for the filters */
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Column header separators - subtle dividers between columns */
+.table-view .table-column-header {
+    -fx-border-color: black; /* Updated to black */
+    -fx-border-width: 0 1px 0 0;
+}
+
+/* Remove the right border from the last column */
+.table-view .table-column-header:last-child {
+    -fx-border-right-width: 0;
+}
