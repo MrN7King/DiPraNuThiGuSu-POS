@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c73a7ae9-ef96-4703-847c-1234fee317ad" name="Changes" comment="Admin Dashboard is completed">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/ExpenseData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/ExpensePDFGenerator.java" afterDir="false" />
+    <list default="true" id="c73a7ae9-ef96-4703-847c-1234fee317ad" name="Changes" comment="Menu Order edit Has been added">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/InventoryPDFGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/cafepos/MainFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/cafepos/MainFormController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/mainForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/cafepos/mainForm.fxml" afterDir="false" />
@@ -46,19 +45,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.HelloApplication.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.14930555",
-    "project.structure.side.proportion": "0.42191333",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.14930555&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.42191333&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/org/example/cafepos/Images" />
@@ -161,7 +160,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746011643193</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Menu Order edit Has been added">
+      <option name="closed" value="true" />
+      <created>1746070219597</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1746070219597</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -196,7 +203,8 @@
     <MESSAGE value="Pos done but without uber" />
     <MESSAGE value="Pos complete 31 march" />
     <MESSAGE value="Admin Dashboard is completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Admin Dashboard is completed" />
+    <MESSAGE value="Menu Order edit Has been added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Menu Order edit Has been added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

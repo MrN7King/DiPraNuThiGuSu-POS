@@ -230,7 +230,7 @@
                               <Separator layoutX="10.0" layoutY="216.0" prefHeight="5.0" prefWidth="859.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="216.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="inventory_form" layoutX="95.0" layoutY="135.0" prefHeight="600.0" prefWidth="911.5" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="inventory_form" layoutX="95.0" layoutY="135.0" prefHeight="600.0" prefWidth="911.5" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="32.0" layoutY="32.0" prefHeight="309.0" prefWidth="892.0" stylesheets="@mainFormDesign.css" AnchorPane.bottomAnchor="281.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                                  <styleClass>
@@ -313,6 +313,7 @@
                                        </font>
                                     </Label>
                                     <ComboBox fx:id="inventory_status" layoutX="432.0" layoutY="129.0" prefHeight="26.0" prefWidth="158.0" promptText="Choose Status..." styleClass="textfield" />
+                                    <Button fx:id="inventory_printbtn" layoutX="522.0" layoutY="196.0" mnemonicParsing="false" onAction="#inventoryPrintBtn" prefWidth="100.0" text="PRINT" AnchorPane.bottomAnchor="24.0" />
                                  </children>
                                  <stylesheets>
                                     <URL value="@mainFormDesign.css" />
@@ -322,7 +323,7 @@
                               <Separator layoutX="386.0" layoutY="327.0" prefWidth="200.0" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="menu_form" layoutX="5.0" layoutY="-3.0" prefHeight="600.0" prefWidth="913.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="menu_form" layoutX="5.0" layoutY="-3.0" prefHeight="600.0" prefWidth="913.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutY="8.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="340.0" AnchorPane.topAnchor="8.0">
                                  <children>
