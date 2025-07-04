@@ -30,6 +30,7 @@ c) Technologies Used
 
 
 d) Features Implemented
+
 🔹 Point-of-Sale (POS) Module: Real-time order processing, digital receipts, refunds, and discounts
 
 🔹 Inventory Management: Live stock tracking, low-stock alerts, and supplier linkage
